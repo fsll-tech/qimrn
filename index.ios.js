@@ -52,3 +52,8 @@ AppRegistry.registerComponent('Merchant', () => Merchant);
 //搜索
 import Search from './src/search/App';
 AppRegistry.registerComponent("Search",() => Search);
+
+//支付
+import Pay from './src/pay/App';
+
+AppRegistry.registerComponent('Pay', () => Pay);

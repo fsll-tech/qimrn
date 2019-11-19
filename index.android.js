@@ -1,3 +1,4 @@
+
 import React, {Component} from 'react';
 import {
     AppRegistry,
@@ -47,6 +48,11 @@ AppRegistry.registerComponent('Contacts', () => Contacts);
 import Merchant from './src/merchant/App';
 
 AppRegistry.registerComponent('Merchant', () => Merchant);
+
+//支付
+import Pay from './src/pay/App';
+
+AppRegistry.registerComponent('Pay', () => Pay);
 
 //搜索
 import Search from './src/search/App';

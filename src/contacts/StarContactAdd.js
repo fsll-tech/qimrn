@@ -16,6 +16,7 @@ import {
 import NavCBtn from "../common/NavCBtn";
 import LoadingView from "../common/LoadingView";
 import QIMCheckBox from '../common/QIMCheckBox';
+import I18n from "./../i18n/i18N";
 
 const kStarContact = "kStarContact";
 
@@ -109,18 +110,25 @@ class StarContactAddList extends Component{
 export default class StarContactAdd extends Component {
 
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "添加星标联系人";
+        let headerTitle = I18n.t('Add_starred_contacts');
         let props = {navigation: navigation, btnType: NavCBtn.BACK_BUTTON};
         let leftBtn = (<NavCBtn {...props}/>);
         let rightBtn = (<NavCBtn btnType={NavCBtn.NAV_BUTTON} onPress={() => {
             if (navigation.state.params.onSavePress) {
                 navigation.state.params.onSavePress();
             }
-        }}>完成</NavCBtn>);
+        }}>{I18n.t('Ok')}</NavCBtn>);
         return {
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitle: headerTitle,
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
             headerRight: rightBtn,
@@ -288,7 +296,7 @@ export default class StarContactAdd extends Component {
                                    numberOfLines={1}
                                    autoFocus={true}
                                    textAlign="left"
-                                   placeholder='搜索姓名/ID-不少于3字'
+                                   placeholder={I18n.t('search_name')}
                                    onChangeText={(userText) => {
                                        this.checkInterval(userText);
                                    }}

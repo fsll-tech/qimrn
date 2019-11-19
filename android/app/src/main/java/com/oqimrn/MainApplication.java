@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.psykar.cookiemanager.CookieManagerPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
 //    protected List<ReactPackage> getPackages() {
 //      return Arrays.<ReactPackage>asList(
 //          new MainReactPackage(),
+            new RNI18nPackage(),
 //            new CookieManagerPackage()
 //      );
 //    }

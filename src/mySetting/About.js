@@ -25,10 +25,18 @@ export default class Setting extends Component {
         let leftBtn = (<NavCBtn {...props}/>);
         return {
             headerTitle: headerTitle,
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
+            headerRight:<View/>,
         };
     };
 
@@ -88,17 +96,17 @@ export default class Setting extends Component {
                         <View style={styles.cellContentView}>
                             <Text style={styles.cellTitle}>新功能介绍</Text>
                             <Text style={styles.cellValue}></Text>
-                            <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                            <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                         </View>
                         <View style={styles.cellContentView}>
                             <Text style={styles.cellTitle}>升级新版本</Text>
                             <Text style={styles.cellValue}>已是最新版本</Text>
-                            <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                            <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                         </View>
                         <View style={styles.cellContentView}>
                             <Text style={styles.cellTitle}>版本历史</Text>
                             <Text style={styles.cellValue}></Text>
-                            <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                            <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                         </View>
                     </View>
                     <View style={styles.line}></View>
@@ -108,7 +116,7 @@ export default class Setting extends Component {
                         }}>
                             <Text style={styles.cellTitle}>去评分</Text>
                             <Text style={styles.cellValue}></Text>
-                            <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                            <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
@@ -122,7 +130,7 @@ var styles = StyleSheet.create({
     },
     scrollView: {
         flex: 1,
-        backgroundColor: "#EAEAEA",
+        backgroundColor: "#f5f5f5",
     },
     contentContainer: {
         // paddingVertical: 20
@@ -135,7 +143,7 @@ var styles = StyleSheet.create({
         flexDirection: "row",
         height: 44,
         borderBottomWidth: 1,
-        borderColor: "#EAEAEA",
+        borderColor: "#eaeaea",
         paddingLeft: 10,
         alignItems: "center",
         flex: 1,

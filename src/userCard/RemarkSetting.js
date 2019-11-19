@@ -11,11 +11,12 @@ import {
     Platform,
 } from 'react-native';
 import NavCBtn from "../common/NavCBtn";
+import I18n from "./../i18n/i18N";
 
 export default class RemarkSetting extends Component {
 
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "修改备注";
+        let headerTitle = I18n.t('singlechat_modify_alias');
         // console.log(headerTitle);
         let props = {navigation: navigation, btnType: NavCBtn.BACK_BUTTON};
         let leftBtn = (<NavCBtn {...props}/>);
@@ -23,11 +24,18 @@ export default class RemarkSetting extends Component {
             if (navigation.state.params.onSavePress) {
                 navigation.state.params.onSavePress();
             }
-        }}>保存</NavCBtn>);
+        }}>{I18n.t('common_saveButton')}</NavCBtn>);
         return {
             headerTitle: headerTitle,
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
             headerRight: rightBtn,
@@ -71,7 +79,7 @@ export default class RemarkSetting extends Component {
                 DeviceEventEmitter.emit("updateRemark", parma);
                 this.props.navigation.goBack();
             } else {
-                Alert.alert("提示", "设置失败");
+                Alert.alert(I18n.t('Reminder'), I18n.t('setupFaild'));
             }
 
 
@@ -91,10 +99,10 @@ export default class RemarkSetting extends Component {
                 <View style={styles.line}/>
                 <View style={styles.remarks}>
                     <View style={styles.cellContentView}>
-                        <Text>备注：</Text>
+                        <Text>{I18n.t('singlechat_alias')}：</Text>
                         <TextInput
                             style={styles.textInput}
-                            placeholder="请输入要设置的备注名"
+                            placeholder={I18n.t('input')}
                             defaultValue={this.state.remark}
                             onChangeText={(text) => this.personalRemarkChangeText(text)}
                             underlineColorAndroid='transparent'
@@ -109,7 +117,7 @@ export default class RemarkSetting extends Component {
 var styles = StyleSheet.create({
     scrollView: {
         flex: 1,
-        backgroundColor: "#EAEAEA",
+        backgroundColor: "#f5f5f5",
     },
     contentContainer: {
         // paddingVertical: 20
@@ -125,7 +133,7 @@ var styles = StyleSheet.create({
         flexDirection: "row",
         height: 44,
         borderBottomWidth: 1,
-        borderColor: "#EAEAEA",
+        borderColor: "#eaeaea",
         paddingLeft: 10,
         paddingRight: 10,
         alignItems: "center",

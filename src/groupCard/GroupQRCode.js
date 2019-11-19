@@ -9,20 +9,29 @@ import {
     Dimensions,
 } from 'react-native';
 import NavCBtn from "../common/NavCBtn";
+import I18n from "./../i18n/i18N";
 
 const {height, width} = Dimensions.get('window');
 export default class GroupQRCode extends Component {
 
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "群二维码名片";
+        let headerTitle = I18n.t('groupchat_qrCode');
         let props = {navigation:navigation,btnType:NavCBtn.BACK_BUTTON};
         let leftBtn = (<NavCBtn {...props}/>);
         return {
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitle: headerTitle,
             headerTitleStyle: {
-                fontSize: 18
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
+            headerRight:<View/>,
         };
     };
 

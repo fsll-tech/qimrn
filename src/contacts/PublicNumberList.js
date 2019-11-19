@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import NavCBtn from './../common/NavCBtn';
 import Image2 from './../common/Image2';
+import I18n from "./../i18n/i18N";
 
 const {height, width} = Dimensions.get('window');
 
@@ -52,7 +53,7 @@ class PNOAnimatedView extends Component {
 export default class PublicNumberList extends React.PureComponent {
 
     static navigationOptions = ({navigation}) => {
-        let headerTitle = '公众号';
+        let headerTitle = I18n.t('contact_Official_Accounts');
         let leftBtn = (<NavCBtn btnType={NavCBtn.EXIT_APP} moduleName={"Contacts"}/>);
         let rightBtn = (<NavCBtn btnType={NavCBtn.NAV_BUTTON}><TouchableOpacity onPress={() => {
                 navigation.state.params.rightAction();
@@ -60,9 +61,16 @@ export default class PublicNumberList extends React.PureComponent {
                 style={styles.addBtnStyle}>{String.fromCharCode(parseInt("0xf1cd"))}</Text></TouchableOpacity></NavCBtn>
         );
         return {
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitle: headerTitle,
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
             headerRight: rightBtn,
@@ -143,7 +151,7 @@ export default class PublicNumberList extends React.PureComponent {
             <View style={styles.searchHeader}>
                 <TouchableOpacity style={styles.searchBtn} onPress={this._searchBtnPress.bind(this)}>
                     <Text style={styles.iconStyle}>{String.fromCharCode(parseInt("0xf407"))}</Text>
-                    <Text style={styles.searchBtnText}>搜索</Text>
+                    <Text style={styles.searchBtnText}>{I18n.t('contact_Search')}</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -195,21 +203,21 @@ export default class PublicNumberList extends React.PureComponent {
                             this._qrCodeClick();
                             this._hiddenRightView();
                         }}>
-                            <Text style={styles.itemViewText}>扫一扫</Text>
+                            <Text style={styles.itemViewText}>{I18n.t('scan')}</Text>
                         </TouchableOpacity>
                         <View style={styles.separatorLine}/>
                         <TouchableOpacity style={styles.itemView} onPress={() => {
                             this._searchPublicNumber();
                             this._hiddenRightView();
                         }}>
-                            <Text style={styles.itemViewText}>查找公众号</Text>
+                            <Text style={styles.itemViewText}>{I18n.t('Search_official_accounts')}</Text>
                         </TouchableOpacity>
                         <View style={styles.separatorLine}/>
                         <TouchableOpacity style={styles.itemView} onPress={() => {
                             this._moreClick();
                             this._hiddenRightView();
                         }}>
-                            <Text style={styles.itemViewText}>更多</Text>
+                            <Text style={styles.itemViewText}>{I18n.t('more')}</Text>
                         </TouchableOpacity>
                     </View>
                 </PNOAnimatedView>
@@ -241,7 +249,7 @@ export default class PublicNumberList extends React.PureComponent {
 const styles = StyleSheet.create({
     itemSeparatorLine: {
         height: 1,
-        backgroundColor: "#EAEAEA",
+        backgroundColor: "#f5f5f5",
     },
     itemRow: {
         height: 56,
@@ -342,6 +350,6 @@ const styles = StyleSheet.create({
     },
     separatorLine: {
         height: 1,
-        backgroundColor: "#EAEAEA",
+        backgroundColor: "#f5f5f5",
     },
 });

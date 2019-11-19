@@ -40,6 +40,7 @@ var AppConfig = {
     _isiOSIpad: false,
     _isToCManager:false,
     _iPadScreenWidth: 0,
+    _nativeAppType: 0,
 };
 
 // 逆追踪定位
@@ -140,6 +141,8 @@ AppConfig.initConfig = function () {
 
             this._isToCManager = Boolean(config.isToCManager);
 
+            this._nativeAppType = parseInt(config.nativeAppType);
+
             this.checkConfig();
             this._loaded = true;
             // if (Platform.OS == 'android') {
@@ -173,7 +176,7 @@ AppConfig.getQCAdminHost = function () {
         this.initConfig();
     }
     if (this._qcAdminHost == null || this._qcAdminHost == '') {
-        this._qcAdminHost = "https://qcadmin.qunar.com";
+        this._qcAdminHost = "";
     }
     return this._qcAdminHost;
 }
@@ -192,6 +195,13 @@ AppConfig.isQtalk = function () {
     return this._isQtalk;
 }
 
+
+AppConfig.nativeAppType = function () {
+    if (!this._loaded) {
+        this.initConfig();
+    }
+    return this._nativeAppType;
+}
 
 AppConfig.isEasyTrip = function () {
     if (!this._loaded) {

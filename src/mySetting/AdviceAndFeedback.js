@@ -17,18 +17,27 @@ import AppConfig from "../common/AppConfig";
 import QIMCheckBox from '../common/QIMCheckBox';
 import {QIMProgress} from '../common/QIMProgress';
 import {QIMLoading} from "../common/QIMLoading";
+import I18n from "./../i18n/i18N";
 
 export default class AdviceAndFeedback extends Component {
 
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "建议和反馈";
+        let headerTitle = I18n.t('Feedback');
         let leftBtn = (<NavCBtn btnType={NavCBtn.EXIT_APP} moduleName={"MySetting"}/>);
         return {
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitle: headerTitle,
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
+            headerRight:<View/>,
         };
     };
 
@@ -71,7 +80,7 @@ export default class AdviceAndFeedback extends Component {
 
     sendAdviceMsg() {
         if (this.state.adviceText && Platform.OS != 'ios') {
-            LoadingView.show('发送中,请稍后');
+            LoadingView.show(I18n.t('Feedback_Sending'));
             let param = {};
             param["adviceText"] = this.state.adviceText;
             param["logSelected"] = this.state.chooseLocalLog;
@@ -108,7 +117,7 @@ export default class AdviceAndFeedback extends Component {
             }.bind(this));
 
         } else {
-            Alert.alert("提示", "请输入要反馈的内容");
+            Alert.alert(I18n.t('Feedback_Reminder'), I18n.t('Feedback_Input_Promt'));
         }
     }
 
@@ -122,7 +131,7 @@ export default class AdviceAndFeedback extends Component {
                     });
                 }}
                 />
-                <Text style={styles.uploadLocalLog}>上传日志</Text>
+                <Text style={styles.uploadLocalLog}>{I18n.t('Feedback_UploadLogs')}</Text>
             </View>
         );
     }
@@ -131,31 +140,41 @@ export default class AdviceAndFeedback extends Component {
         return (
 
             <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
-                <Text>建议和反馈：</Text>
-                <TextInput
-                    style={styles.textInput}
-                    multiline={true}
-                    placeholder="请简要描述一下问题"
-                    onChangeText={(text) => this.setState({adviceText: text})}
-                    underlineColorAndroid='transparent'
-                    clearButtonMode="while-editing"
-                    // defaultValue="请简要描述一下问题"
-                    textAlignVertical='top'
-                />
+                <View style={styles.cellContentView} >
+                    <Text style={{marginLeft:15,marginTop:15,marginRight:15,}}>{I18n.t('Feedback_Method1')}</Text>
+                </View>
+
+                <TouchableOpacity style={styles.sendBtn} onPress={() => {
+                    this.openDeveloperChat();
+                }}>
+                    <Text style={styles.sendBtnText}>{I18n.t('Feedback_ContactUs')}</Text>
+                </TouchableOpacity>
+
+                <View style={{backgroundColor:'#F5F5F5',flex:1,height:10,marginTop:25}}/>
+
+                <View style={styles.cellContentView}>
+                    <Text style={{marginLeft:15,marginTop:15,marginRight:15}}>{I18n.t('Feedback_Method2')}</Text>
+
+                    <TextInput
+                        style={styles.textInput}
+                        multiline={true}
+                        placeholder={I18n.t('Feedback_input')}
+                        onChangeText={(text) => this.setState({adviceText: text})}
+                        underlineColorAndroid='transparent'
+                        clearButtonMode="while-editing"
+                        // defaultValue="请简要描述一下问题"
+                        textAlignVertical='top'
+                    />
+                </View>
+
+                {this.showChooseLogView()}
+
                 <TouchableOpacity style={styles.sendBtn} onPress={() => {
                     this.sendAdviceMsg();
                 }}>
-                    <Text style={styles.sendBtnText}>发送</Text>
+                    <Text style={styles.sendBtnText}>{I18n.t('Feedback_Send')}</Text>
                 </TouchableOpacity>
-                {this.showChooseLogView()}
-                <View style={styles.developerBtnView}>
-                    <Text style={styles.developerLabel}>点击联系开发人员：</Text>
-                    <TouchableOpacity style={{justifyContent: "center", alignItems: "center"}} onPress={() => {
-                        this.openDeveloperChat();
-                    }}>
-                        <Text style={styles.developerBtn}>开发人员</Text>
-                    </TouchableOpacity>
-                </View>
+
             </ScrollView>
         );
     }
@@ -163,44 +182,40 @@ export default class AdviceAndFeedback extends Component {
 var styles = StyleSheet.create({
     scrollView: {
         flex: 1,
-        backgroundColor: "#EAEAEA",
+        backgroundColor: "#FFF",
     },
     contentContainer: {
         paddingVertical: 15,
-        paddingHorizontal: 15,
+        // paddingHorizontal: 15,
     },
     line: {
         height: 10,
     },
     cellContentView: {
         backgroundColor: "#FFF",
-        flexDirection: "row",
-        height: 44,
-        borderBottomWidth: 1,
-        borderColor: "#EAEAEA",
-        paddingLeft: 10,
-        paddingRight: 10,
+        flexDirection: "column",
+        padding: 10,
         alignItems: "center",
-        flex: 1,
     },
     textInput: {
-        flex: 1,
+        width:300,
         height: 150,
         backgroundColor: "#FFF",
         marginTop: 10,
-        marginLeft: -15,
-        marginRight: -15,
-        paddingLeft: 15,
-        paddingRight: 15,
+        marginLeft:10,
+        marginRight:10,
+        borderWidth: 1,
+        borderColor: "#D0D0D0",
     },
     sendBtn: {
-        backgroundColor: "#41CF94",
-        flex: 1,
+        backgroundColor: "#00CABE",
         height: 44,
         borderRadius: 5,
         alignItems: "center",
         justifyContent: "center",
-        marginTop: 50,
+        marginTop: 20,
+        marginLeft:20,
+        marginRight:20,
     },
     sendBtnText: {
         fontSize: 16,
@@ -246,6 +261,7 @@ var styles = StyleSheet.create({
     },
     checkBox: {
         marginTop: 10,
+        marginLeft:25,
         height: 20,
         flexDirection: "row",
         alignItems: "flex-start",

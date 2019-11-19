@@ -10,9 +10,10 @@ import {
 import NavCBtn from './../common/NavCBtn'
 import HttpTools from './../common/HttpTools';
 import AppConfig from "../common/AppConfig";
+import I18nJs from "react-native-i18n";
 export default class TransferReason extends Component{
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "会话转移";
+        let headerTitle = I18n.t('Transfer_chats');
         let leftBtn = (<NavCBtn btnType={NavCBtn.EXIT_APP} moduleName={"Merchant"}/>);
         let rightBtn = (<NavCBtn btnType={NavCBtn.NAV_BUTTON} onPress={() => {
             if (navigation.state.params.onSavePress) {
@@ -24,9 +25,16 @@ export default class TransferReason extends Component{
             leftBtn = (<NavCBtn {...props}/>);
         }
         return {
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitle: headerTitle,
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
             headerRight: rightBtn,
@@ -58,7 +66,7 @@ export default class TransferReason extends Component{
 
     nextStep(){
         if(this.state.transferReason === ""){
-            Alert.alert("提示","请输入转移原因");
+            Alert.alert("提示",I18n.t('Transfer_chats_reason'));
             return;
         }
         this._transferCsr();
@@ -98,12 +106,14 @@ export default class TransferReason extends Component{
         }
     }
 
+
+
     render(){
         return (
             <View style={styles.wrapper}>
                 <TextInput style={styles.textInput}
                            multiline={true}
-                           placeholder=" 请输入转移原因"
+                           placeholder={I18n.t('Transfer_chats_reason')}
                            onChangeText={(text) => this.setState({transferReason: text})}
                            underlineColorAndroid='transparent'
                            clearButtonMode="while-editing"
@@ -117,7 +127,7 @@ export default class TransferReason extends Component{
 var styles = StyleSheet.create({
     wrapper: {
         flex: 1,
-        backgroundColor: "#EAEAEA",
+        backgroundColor: "#f5f5f5",
     },
     textInput: {
         flex: 1,

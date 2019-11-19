@@ -11,22 +11,30 @@ import {
     Platform,
 } from 'react-native';
 import NavCBtn from "../common/NavCBtn";
+import I18n from "./../i18n/i18N";
 
 export default class PersonalSignature extends Component {
 
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "个性签名设置";
+        let headerTitle = I18n.t('WhatUp_Setup');
         let props = {navigation:navigation,btnType:NavCBtn.BACK_BUTTON};
         let leftBtn = (<NavCBtn {...props}/>);
         let rightBtn = (<NavCBtn btnType={NavCBtn.NAV_BUTTON}  onPress={() => {
             if (navigation.state.params.onSavePress){
                 navigation.state.params.onSavePress();
             }
-        }}>保存</NavCBtn>);
+        }}>{I18n.t('common_saveButton')}</NavCBtn>);
         return {
             headerTitle: headerTitle,
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitleStyle: {
-                fontSize: 18
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
             headerRight: rightBtn,
@@ -66,13 +74,13 @@ export default class PersonalSignature extends Component {
                     DeviceEventEmitter.emit("updatePersonalSignature",parma);
                     this.props.navigation.goBack();
                 }else{
-                    Alert.alert("提示", "修改个性签名失败!");
+                    Alert.alert(I18n.t('Reminder'), I18n.t('faild_change_whatup'));
                 }
 
 
             }.bind(this));
         } else {
-            Alert.alert("提示", "没有对个性签名做出修改!");
+            Alert.alert(I18n.t('Reminder'), I18n.t('No_change_what_up'));
         }
     }
 
@@ -87,11 +95,11 @@ export default class PersonalSignature extends Component {
     render() {
         return (
             <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
-                <Text>个性签名：</Text>
+                <Text>{I18n.t('My_Profile_QianMing')}：</Text>
                 <TextInput
                     style={styles.textInput}
                     multiline={true}
-                    placeholder="请输入要设置的个性签名"
+                    placeholder={I18n.t('input')}
                     defaultValue={this.state.personalSignature}
                     onChangeText={(text) => this.personalSignatureChangeText(text)}
                     underlineColorAndroid='transparent'
@@ -105,7 +113,7 @@ export default class PersonalSignature extends Component {
 var styles = StyleSheet.create({
     scrollView: {
         flex: 1,
-        backgroundColor: "#EAEAEA",
+        backgroundColor: "#f5f5f5",
     },
     contentContainer: {
         paddingVertical: 15,
@@ -119,7 +127,7 @@ var styles = StyleSheet.create({
         flexDirection: "row",
         height: 44,
         borderBottomWidth: 1,
-        borderColor: "#EAEAEA",
+        borderColor: "#eaeaea",
         paddingLeft: 10,
         paddingRight: 10,
         alignItems: "center",

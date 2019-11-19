@@ -21,6 +21,7 @@ import SectionIndex from './SectionIndex';
 import AppConfig from "../common/AppConfig";
 import ScreenUtils from './../common/ScreenUtils';
 import RNRestart from 'react-native-restart';
+import I18n from "./../i18n/i18N";
 
 const {height, width} = Dimensions.get('window');
 
@@ -67,19 +68,19 @@ class ContactItem extends Component {
     }
 
     _renderLocalImagePath = (title) => {
-        if (title == "星标联系人") {
+        if (title == I18n.t('contact_Starred')) {
             return (
                 <Image source={require('../images/star_contacts.png')} style={styles.iconStyle}/>
             );
-        } else if (title == "我的群组") {
+        } else if (title == I18n.t('contact_myGroups')) {
             return (
                 <Image source={require('../images/my_groups.png')} style={styles.iconStyle}/>
             );
-        } else if (title == "组织架构") {
+        } else if (title == I18n.t('contact_Organization')) {
             return (
                 <Image source={require('../images/organization.png')} style={styles.iconStyle}/>
             );
-        } else if (title == "外部联系人") {
+        } else if (title == I18n.t('contact_External')) {
             return (
                 <Image source={require('../images/out_contacts.png')} style={styles.iconStyle}/>
             );
@@ -130,7 +131,7 @@ class ContactItem extends Component {
     };
 
     showUnreadCount(title) {
-        if (title === '未读消息' && this.state.unreadCount > 0) {
+        if (title === I18n.t('contact_UnRead_Messages') && this.state.unreadCount > 0) {
             return (
                 <View style={styles.unreadCount}>
                     <Text style={styles.unreadCountText}>{this.state.unreadCount}</Text>
@@ -473,15 +474,15 @@ export default class Contacts extends Component {
     };
 
     _headerPress = (title) => {
-        if (title == "未读消息") {
+        if (title == I18n.t('contact_UnRead_Messages')) {
             let params = {};
             params["NativeName"] = "NotReadMsg";
             NativeModules.QimRNBModule.openNativePage(params);
-        } else if (title == "好友") {
+        } else if (title == I18n.t('contact_friend')) {
             let params = {};
             params["NativeName"] = "FriendList";
             NativeModules.QimRNBModule.openNativePage(params);
-        } else if (title == "我的群组") {
+        } else if (title == I18n.t('contact_myGroups')) {
             let params = {};
             params["Bundle"] = 'clock_in.ios';
             params["Module"] = 'Contacts';
@@ -489,7 +490,7 @@ export default class Contacts extends Component {
             NativeModules.QimRNBModule.openRNPage(params, function (response) {
 
             });
-        } else if (title == "公众号") {
+        } else if (title == I18n.t('contact_Official_Accounts')) {
             if (Platform.OS == 'ios') {
                 let params = {};
                 params["Bundle"] = 'clock_in.ios';
@@ -504,11 +505,11 @@ export default class Contacts extends Component {
                 NativeModules.QimRNBModule.openNativePage(params);
             }
 
-        } else if (title == "组织架构") {
+        } else if (title == I18n.t('contact_Organization')) {
             let params = {};
             params["NativeName"] = "Organizational";
             NativeModules.QimRNBModule.openNativePage(params);
-        } else if (title == "星标联系人") {
+        } else if (title == I18n.t('contact_Starred')) {
             let params = {};
             params["Bundle"] = 'clock_in.ios';
             params["Module"] = 'Contacts';
@@ -516,7 +517,7 @@ export default class Contacts extends Component {
             NativeModules.QimRNBModule.openRNPage(params, function (response) {
 
             });
-        } else if (title == "外部联系人") {
+        } else if (title == I18n.t('contact_External')) {
             let params = {};
             params["NativeName"] = "DomainSearch";
             NativeModules.QimRNBModule.openNativePage(params);
@@ -530,27 +531,27 @@ export default class Contacts extends Component {
                     <View style={styles.searchHeader}>
                         <TouchableOpacity style={styles.searchBtn} onPress={this._searchBtnPress.bind(this)}>
                             <Text style={styles.searchBtnIcon}>{String.fromCharCode(parseInt("0xe752"))}</Text>
-                            <Text style={styles.searchBtnText}>搜索</Text>
+                            <Text style={styles.searchBtnText}>{I18n.t('contact_Search')}</Text>
                         </TouchableOpacity>
                     </View>
-                    <TouchableOpacity style={styles.itemRowHeaderChild} onPress={this._headerPress.bind(this, "星标联系人")}>
+                    <TouchableOpacity style={styles.itemRowHeaderChild} onPress={this._headerPress.bind(this, I18n.t('contact_Starred'))}>
                         <Image source={require('../images/star_contacts.png')} style={styles.itemRowHeaderImage}/>
-                        <Text style={styles.itemHeaderText}>{"星标联系人"}</Text>
+                        <Text style={styles.itemHeaderText}>{I18n.t('contact_Starred')}</Text>
                     </TouchableOpacity>
                     <View style={styles.line}/>
-                    <TouchableOpacity style={styles.itemRowHeaderChild} onPress={this._headerPress.bind(this, "我的群组")}>
+                    <TouchableOpacity style={styles.itemRowHeaderChild} onPress={this._headerPress.bind(this, I18n.t('contact_myGroups'))}>
                         <Image source={require('../images/my_groups.png')} style={styles.itemRowHeaderImage}/>
-                        <Text style={styles.itemHeaderText}>{"我的群组"}</Text>
+                        <Text style={styles.itemHeaderText}>{I18n.t('contact_myGroups')}</Text>
                     </TouchableOpacity>
                     <View style={styles.line}/>
-                    <TouchableOpacity style={styles.itemRowHeaderChild} onPress={this._headerPress.bind(this, "组织架构")}>
+                    <TouchableOpacity style={styles.itemRowHeaderChild} onPress={this._headerPress.bind(this, I18n.t('contact_Organization'))}>
                         <Image source={require('../images/organization.png')} style={styles.itemRowHeaderImage}/>
-                        <Text style={styles.itemHeaderText}>{"组织架构"}</Text>
+                        <Text style={styles.itemHeaderText}>{I18n.t('contact_Organization')}</Text>
                     </TouchableOpacity>
                     <View style={styles.line}/>
-                    <TouchableOpacity style={styles.itemRowHeaderChild} onPress={this._headerPress.bind(this, "外部联系人")}>
+                    <TouchableOpacity style={styles.itemRowHeaderChild} onPress={this._headerPress.bind(this, I18n.t('contact_External'))}>
                         <Image source={require('../images/out_contacts.png')} style={styles.itemRowHeaderImage}/>
-                        <Text style={styles.itemHeaderText}>{"外部联系人"}</Text>
+                        <Text style={styles.itemHeaderText}>{I18n.t('contact_External')}</Text>
                     </TouchableOpacity>
                     <View style={styles.line}/>
                 </View>
@@ -561,23 +562,23 @@ export default class Contacts extends Component {
                     <View style={styles.searchHeader}>
                         <TouchableOpacity style={styles.searchBtn} onPress={this._searchBtnPress.bind(this)}>
                             <Text style={styles.searchBtnIcon}>{String.fromCharCode(parseInt("0xe752"))}</Text>
-                            <Text style={styles.searchBtnText}>搜索</Text>
+                            <Text style={styles.searchBtnText}>{I18n.t('contact_Search')}</Text>
                         </TouchableOpacity>
                     </View>
-                    <TouchableOpacity style={styles.itemRowHeaderChild} onPress={this._headerPress.bind(this, "星标联系人")}>
+                    <TouchableOpacity style={styles.itemRowHeaderChild} onPress={this._headerPress.bind(this, I18n.t('contact_Starred'))}>
                         <Image source={require('../images/star_contacts.png')} style={styles.itemImage}/>
-                        <Text style={styles.itemHeaderText}>{"星标联系人"}</Text>
+                        <Text style={styles.itemHeaderText}>{I18n.t('contact_Starred')}</Text>
                     </TouchableOpacity>
                     <View style={styles.line}/>
-                    <TouchableOpacity style={styles.itemRowHeaderChild} onPress={this._headerPress.bind(this, "我的群组")}>
+                    <TouchableOpacity style={styles.itemRowHeaderChild} onPress={this._headerPress.bind(this, I18n.t('contact_myGroups'))}>
                         <Image source={require('../images/my_groups.png')} style={styles.itemImage}/>
-                        <Text style={styles.itemHeaderText}>{"我的群组"}</Text>
+                        <Text style={styles.itemHeaderText}>{I18n.t('contact_myGroups')}</Text>
                     </TouchableOpacity>
                     <View style={styles.line}/>
                     <TouchableOpacity style={[styles.itemRowHeaderChild]}
-                                      onPress={this._headerPress.bind(this, "外部联系人")}>
+                                      onPress={this._headerPress.bind(this, I18n.t('contact_External'))}>
                         <Image source={require('../images/out_contacts.png')} style={styles.itemImage}/>
-                        <Text style={styles.itemHeaderText}>{"外部联系人"}</Text>
+                        <Text style={styles.itemHeaderText}>{I18n.t('contact_External')}</Text>
                     </TouchableOpacity>
                     <View style={styles.line}/>
                 </View>
@@ -594,7 +595,7 @@ export default class Contacts extends Component {
             if (this.state.section.length > 1) {
                 return (
                     <View style={{flex: 1, flexDirection: "column", backgroundColor: '#F5F5F5'}}>
-                        <Text style={styles.footerText}>{this.friendCount + "位好友"}</Text>
+                        <Text style={styles.footerText}>{this.friendCount + ' ' + I18n.t('contact_friend')}</Text>
                         <View style={{height: height, backgroundColor: '#00000000'}}></View>
                     </View>
                 );
@@ -638,7 +639,7 @@ export default class Contacts extends Component {
             }}>
                 <Image style={{width: 150, height: 150, marginTop: 20}}
                        source={require('../images/no_contacts.png')}/>
-                <Text style={{color: "#999"}}>{"暂无好友"}</Text>
+                <Text style={{color: "#999"}}>{I18n.t('contact_NO_friend')}</Text>
             </View>
         )
     }

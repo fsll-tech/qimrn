@@ -11,10 +11,11 @@ import {
 
 import createInvoke from './native.js'
 import MD5 from 'crypto-js/md5'
-import Buffer from 'buffer'
+// import Buffer from 'buffer'
 import HttpTools from "../common/HttpTools";
 import AppConfig from "../common/AppConfig";
 import NavCBtn from "../common/NavCBtn";
+import I18n from "../i18n/i18N";
 
 // 解决 PostMessage 问题 <WebView injectedJavaScript={patchPostMessageJsCode} />
 const patchPostMessageFunction = () => {
@@ -75,11 +76,19 @@ export default class QIMWebView extends Component {
             leftBtn = (<NavCBtn btnType={NavCBtn.EXIT_APP} moduleName={"WebView"}/>);
         }
         return {
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitle: headerTitle,
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
+            headerRight:<View/>,
         };
     };
 
@@ -191,30 +200,30 @@ export default class QIMWebView extends Component {
         // }
     }
 
-    appKeyCheck() {
-        (async function () {
-            let appKey = await this.invoke.bind("appKey")();
-            let authKey = MD5(`AppId=${this.appId}&AppKey=${appKey}`);
-            let base64Str = new Buffer.Buffer(`appId=${this.appId}&key=${authKey}`).toString('base64');
-            let url = `${AppConfig.APP_CHECK}&authKey=${base64Str}`;
-            // console.log(url);
-            HttpTools.get(url).then(function (res) {
-                if (this.unmount) {
-                    return;
-                }
-                if (res.ok) {
-                    // console.log("App 认证成功")
-                } else {
-                    Alert.alert('提示', res.msg, [{
-                        text: '确定',
-                        onPress: () => {
-                            this.goBack();
-                        }
-                    }]);
-                }
-            }.bind(this));
-        }.bind(this))();
-    }
+    // appKeyCheck() {
+    //     (async function () {
+    //         let appKey = await this.invoke.bind("appKey")();
+    //         let authKey = MD5(`AppId=${this.appId}&AppKey=${appKey}`);
+    //         let base64Str = new Buffer.Buffer(`appId=${this.appId}&key=${authKey}`).toString('base64');
+    //         let url = `${AppConfig.APP_CHECK}&authKey=${base64Str}`;
+    //         // console.log(url);
+    //         HttpTools.get(url).then(function (res) {
+    //             if (this.unmount) {
+    //                 return;
+    //             }
+    //             if (res.ok) {
+    //                 // console.log("App 认证成功")
+    //             } else {
+    //                 Alert.alert(I18n.t('Reminder'), res.msg, [{
+    //                     text: I18n.t('Ok'),
+    //                     onPress: () => {
+    //                         this.goBack();
+    //                     }
+    //                 }]);
+    //             }
+    //         }.bind(this));
+    //     }.bind(this))();
+    // }
 
     onNavigationStateChange(navState) {
         let needUpdate = false;

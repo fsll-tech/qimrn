@@ -13,6 +13,7 @@ import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/Car
 import {LocalFileSearch} from "./LocalFileSearch";
 import {LocalLinkSearch} from "./LocalLinkSearch";
 import {LocalDateSearch} from "./LocalDateSearch";
+import CommonNav from "../common/CommonNav";
 
 UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
@@ -44,6 +45,7 @@ export default class App extends Component {
             headerMode: 'screen',
             initialRouteName: route.name,
             initialRouteParams: initData,
+            navigationOptions: CommonNav.commonNavigationOptions(),
             transitionConfig: () => ({screenInterpolator: CardStackStyleInterpolator.forHorizontal})
         });
 

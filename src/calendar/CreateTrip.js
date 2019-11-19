@@ -63,9 +63,16 @@ export default class CreateTrip extends Component {
 
 
         return {
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitle: headerTitle,
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
             headerRight: rightBtn,
@@ -1141,7 +1148,7 @@ export default class CreateTrip extends Component {
                             <Text
                                 style={[styles.normalTextLeft, styles.marginLeft26]}>{this.showTripTypeText(this.state.tripType)}</Text>
 
-                            <Image source={require('../images/arrow_right.png')}
+                            <Image source={require('../images/new_arrow_right.png')}
                                    style={[{height: 24, width: 24,}, styles.meright16]}/>
 
                         </View>

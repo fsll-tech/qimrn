@@ -19,7 +19,7 @@ export default class QIMCheckBox extends React.PureComponent {
     static defaultProps = {
         icon: 'ios-checkmark',
         size: 24,
-        backgroundColor: '#007AFF',
+        backgroundColor: '#00CABE',
         iconColor: 'white',
         borderColor: 'grey',
         checked: false,

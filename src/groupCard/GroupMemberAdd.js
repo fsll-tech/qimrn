@@ -17,6 +17,7 @@ import NavCBtn from "../common/NavCBtn";
 import QIMCheckBox from '../common/QIMCheckBox';
 import LoadingView from "../common/LoadingView";
 import AppConfig from "../common/AppConfig";
+import I18n from "./../i18n/i18N";
 
 class GroupMemberAddItem extends Component {
     constructor(props) {
@@ -62,7 +63,7 @@ class GroupMemberAddItem extends Component {
                         <QIMCheckBox style={styles.ckBox} size={24} checked={this.state.item.selected}/>
                         <Image source={{uri: headerUri}} style={styles.memberHeader}/>
                         <Text style={styles.ckText}>{name}</Text>
-                        <Text style={styles.memberHasInGroup}>已加群</Text>
+                        <Text style={styles.memberHasInGroup}>{I18n.t('user_in_group')}</Text>
                     </View>
                 );
             } else {
@@ -85,7 +86,7 @@ class GroupMemberAddItem extends Component {
                     <View style={styles.cellContentView}>
                         <Text style={styles.ckText}>{name}</Text>
                         <QIMCheckBox style={styles.ckBox} size={24} checked={this.state.item.selected}/>
-                        <Text style={styles.memberHasInGroup}>已加群</Text>
+                        <Text style={styles.memberHasInGroup}>{I18n.t('user_in_group')}</Text>
                     </View>
                 );
             } else {
@@ -188,18 +189,25 @@ class GroupAddMemberList extends Component {
 export default class GroupMemberAdd extends Component {
 
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "群成员";
+        let headerTitle = I18n.t('groupmember');
         let props = {navigation: navigation, btnType: NavCBtn.BACK_BUTTON};
         let leftBtn = (<NavCBtn {...props}/>);
         let rightBtn = (<NavCBtn btnType={NavCBtn.NAV_BUTTON} onPress={() => {
             if (navigation.state.params.onSavePress) {
                 navigation.state.params.onSavePress();
             }
-        }}>完成</NavCBtn>);
+        }}>{I18n.t('Ok')}</NavCBtn>);
         return {
             headerTitle: headerTitle,
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
             headerRight: rightBtn,
@@ -460,7 +468,7 @@ export default class GroupMemberAdd extends Component {
                     <View style={styles.searchHeader}>
                         <TextInput
                             style={styles.searchInput}
-                            placeholder="搜索姓名/ID-不少于3字"
+                            placeholder={I18n.t('search_name')}
                             returnKeyType="search"
                             autoCorrect={false}
                             autoFocus={true}

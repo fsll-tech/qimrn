@@ -19,18 +19,27 @@ import {
 } from 'react-native';
 import NavCBtn from "../common/NavCBtn";
 import AppConfig from "../common/AppConfig";
+import I18n from "./../i18n/i18N";
 
 export default class Setting extends Component {
 
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "设置";
+        let headerTitle = I18n.t('My_Setting');
         let leftBtn = (<NavCBtn btnType={NavCBtn.EXIT_APP} moduleName={"MySetting"}/>);
         return {
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitle: headerTitle,
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
+            headerRight:<View/>,
         };
     };
 
@@ -190,10 +199,10 @@ export default class Setting extends Component {
 
     //清空消息列表
     clearSessionList() {
-        Alert.alert('提示', '该操作将会删除所有会话及消息,确定要继续么?',
+        Alert.alert(I18n.t('Reminder'), I18n.t('delete_allSession_confirm'),
             [
-                {text: "确定", onPress: this._clearSessionListPressOk},
-                {text: "取消", onPress: this._clearSessionListPressCancel},
+                {text: I18n.t('Ok'), onPress: this._clearSessionListPressOk},
+                {text: I18n.t('Cancel'), onPress: this._clearSessionListPressCancel},
             ]
         )
     }
@@ -215,6 +224,16 @@ export default class Setting extends Component {
             NativeModules.QimRNBModule.openNativePage(params);
         } else if (Platform.OS == 'ios') {
             NativeModules.QimRNBModule.openMcConfig();
+        }
+    }
+
+    openNavigationConfig() {
+        if (Platform.OS == 'android') {
+            let params = {};
+            params["NativeName"] = "NavigationConfig";
+            NativeModules.QimRNBModule.openNativePage(params);
+        } else if (Platform.OS == 'ios') {
+
         }
     }
 
@@ -254,7 +273,7 @@ export default class Setting extends Component {
                     let appCache = '0.00kb';
                     this.setState({AppCache: appCache});
                 } else {
-                    Alert.alert("提示", "清空缓存失败");
+                    Alert.alert(I18n.t('Reminder'), I18n.t('clear_caches_faild'));
                 }
             }.bind(this));
         } else if (Platform.OS == 'ios') {
@@ -317,7 +336,7 @@ export default class Setting extends Component {
                 if (response.ok) {
 
                 } else {
-                    Alert.alert("提示", "修改驼圈通知状态失败");
+                    Alert.alert(I18n.t('Reminder'), I18n.t('faild_change_moment_notification'));
                     this.setState({workWorldRemind: !value});
                 }
             }.bind(this)
@@ -329,7 +348,7 @@ export default class Setting extends Component {
             return (<View>
                 <View>
                     <View style={styles.cellContentView}>
-                        <Text style={styles.cellTitle}>优先显示心情短语</Text>
+                        <Text style={styles.cellTitle}>{I18n.t('My_Setting_ShowWhatup')}</Text>
                         <View style={styles.cellValue2}>
                             <Switch style={{transform: [{scaleX: .8}, {scaleY: .8}]}} value={this.state.userModState}
                                     onValueChange={(value) => {
@@ -358,10 +377,10 @@ export default class Setting extends Component {
 
     //退出登录
     logout() {
-        Alert.alert('提示', '确定退出么?',
+        Alert.alert(I18n.t('Reminder'), I18n.t('logout_confirm'),
             [
-                {text: "确定", onPress: this._logoutOnPressOK},
-                {text: "取消", onPress: this._logoutOnPressCancel},
+                {text: I18n.t('Ok'), onPress: this._logoutOnPressOK},
+                {text: I18n.t('Cancel'), onPress: this._logoutOnPressCancel},
 
             ]
         );
@@ -382,9 +401,9 @@ export default class Setting extends Component {
                     <TouchableOpacity style={styles.cellContentView} onPress={() => {
                         this.updateCheckConfig();
                     }}>
-                        <Text style={styles.cellTitle}>更新第三方配置</Text>
+                        <Text style={styles.cellTitle}>{I18n.t('My_Setting_ThirdUpdate')}</Text>
                         <Text style={styles.cellValue}></Text>
-                        <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                        <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                     </TouchableOpacity>
                 </View>
             );
@@ -400,9 +419,9 @@ export default class Setting extends Component {
                     <TouchableOpacity style={styles.cellContentView} onPress={() => {
                         this.openSysSetting();
                     }}>
-                        <Text style={styles.cellTitle}>系统设置</Text>
+                        <Text style={styles.cellTitle}>{I18n.t('My_Setting_SystemSettings')}</Text>
                         <Text style={styles.cellValue}></Text>
-                        <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                        <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                     </TouchableOpacity>
                 </View>
             );
@@ -415,7 +434,7 @@ export default class Setting extends Component {
         if (AppConfig.isQtalk() && AppConfig.isShowWorkWorld()) {
             return (
                 <View style={styles.cellContentView}>
-                    <Text style={styles.cellTitle}>驼圈提醒</Text>
+                    <Text style={styles.cellTitle}>{I18n.t('My_Setting_GeneralSettings_MomentNotification')}</Text>
                     <View style={styles.cellValue2}>
                         <Switch style={{transform: [{scaleX: .8}, {scaleY: 0.8}]}}
                                 value={this.state.workWorldRemind}
@@ -438,9 +457,9 @@ export default class Setting extends Component {
                     <TouchableOpacity style={styles.cellContentView} onPress={() => {
                         this.alertSettingConfig();
                     }}>
-                        <Text style={styles.cellTitle}>提示音设置</Text>
+                        <Text style={styles.cellTitle}>{I18n.t('My_Setting_GeneralSettings_NotificationSound')}</Text>
                         <Text style={styles.cellValue}></Text>
-                        <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                        <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                     </TouchableOpacity>
                 </View>
             );
@@ -451,7 +470,7 @@ export default class Setting extends Component {
         // if (Platform.OS == 'android') {
             return (
                 <View style={styles.cellContentView}>
-                    <Text style={styles.cellTitle}>水印背景</Text>
+                    <Text style={styles.cellTitle}>{I18n.t('My_Setting_GeneralSettings_WaterMark')}</Text>
                     <View style={styles.cellValue2}>
                         <Switch style={{transform: [{scaleX: .8}, {scaleY: 0.8}]}}
                                 value={this.state.waterMarkState}
@@ -476,9 +495,9 @@ export default class Setting extends Component {
                     <TouchableOpacity style={styles.cellContentView} onPress={() => {
                         this.openServiceStateSetting();
                     }}>
-                        <Text style={styles.cellTitle}>服务状态</Text>
+                        <Text style={styles.cellTitle}>{I18n.t('My_Setting_Service_Status')}</Text>
                         <Text style={styles.cellValue}></Text>
-                        <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                        <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                     </TouchableOpacity>
                 </View>
             );
@@ -487,18 +506,38 @@ export default class Setting extends Component {
     }
 
     _showAccountManager() {
-        if (AppConfig.isQtalk()) {
+        if (false) {
             return (
                 <View>
                     <TouchableOpacity style={styles.cellContentView} onPress={() => {
                         this.openMcConfig();
                     }}>
-                        <Text style={styles.cellTitle}>账号管理</Text>
+                        <Text style={styles.cellTitle}>{I18n.t('My_Setting_Account_Manage')}</Text>
                         <Text style={styles.cellValue}></Text>
-                        <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                        <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                     </TouchableOpacity>
                 </View>
             );
+        }
+    }
+
+    //打开导航配置管理页面
+    _showNavigationManager() {
+        if (Platform.OS == 'android') {
+
+            if (AppConfig.isQtalk()) {
+                return (
+                    <View>
+                        <TouchableOpacity style={styles.cellContentView} onPress={() => {
+                            this.openNavigationConfig();
+                        }}>
+                            <Text style={styles.cellTitle}>{I18n.t('My_Setting_Nav_Manage')}</Text>
+                            <Text style={styles.cellValue}></Text>
+                            <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
+                        </TouchableOpacity>
+                    </View>
+                );
+            }
         }
     }
 
@@ -509,9 +548,9 @@ export default class Setting extends Component {
                     <TouchableOpacity style={styles.cellContentView} onPress={() => {
                         this.openAccountSwitch();
                     }}>
-                        <Text style={styles.cellTitle}>切换账号</Text>
+                        <Text style={styles.cellTitle}>{I18n.t('My_Setting_Account_Switch')}</Text>
                         <Text style={styles.cellValue}></Text>
-                        <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                        <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                     </TouchableOpacity>
                 </View>
             );
@@ -525,7 +564,7 @@ export default class Setting extends Component {
                     <TouchableOpacity style={styles.cellContentView} onPress={() => {
                         this.clearSessionList();
                     }}>
-                        <Text style={[styles.cellTitle, {color: "#FB4656"}]}>清空消息列表</Text>
+                        <Text style={[styles.cellTitle, {color: "#FB4656"}]}>{I18n.t('My_Setting_ClearSessionList')}</Text>
                     </TouchableOpacity>
                 </View>
             )
@@ -552,30 +591,30 @@ export default class Setting extends Component {
             <View style={styles.wrapper}>
                 <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
                     <Text style={styles.sectionHeader}>
-                        通用
+                        {I18n.t('My_Setting_General')}
                     </Text>
                     <View>
                         <TouchableOpacity style={styles.cellContentView} onPress={() => {
                             this.openNotificationSetting();
                         }}>
-                            <Text style={styles.cellTitle}>通知</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('My_Setting_Notifications')}</Text>
                             <Text style={styles.cellValue}></Text>
-                            <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                            <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                         </TouchableOpacity>
                     </View>
                     <View>
                         <TouchableOpacity style={styles.cellContentView} onPress={() => {
                             this.openPrivacySetting();
                         }}>
-                            <Text style={styles.cellTitle}>隐私设置</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('My_Setting_Privacy')}</Text>
                             <Text style={styles.cellValue}></Text>
-                            <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                            <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                         </TouchableOpacity>
                     </View>
 
 
                     <Text style={styles.sectionHeader}>
-                        对话
+                        {I18n.t('My_Setting_Chat')}
                     </Text>
 
 
@@ -596,22 +635,23 @@ export default class Setting extends Component {
                     <View>
 
                         {this._showAccountManager()}
+                        {this._showNavigationManager()}
                         {this._showAccountSwitch()}
-                        {this._showCheckConfig()}
+                        {/*{this._showCheckConfig()}*/}
                         {this._showServiceState()}
 
                     </View>
 
                     <Text style={styles.sectionHeader}>
-                        通用设置
+                        {I18n.t('My_Setting_GeneralSettings')}
                     </Text>
                     <View>
                         <TouchableOpacity style={styles.cellContentView} onPress={() => {
                             this.clearAppCache();
                         }}>
-                            <Text style={styles.cellTitle}>清除缓存</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('My_Setting_GeneralSettings_ClearCache')}</Text>
                             <Text style={styles.cellValue}>{AppCache}</Text>
-                            <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                            <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                         </TouchableOpacity>
 
                         {this._showSysSetting()}
@@ -622,15 +662,15 @@ export default class Setting extends Component {
 
                     </View>
                     <Text style={styles.sectionHeader}>
-                        其他
+                        {I18n.t('My_Setting_Other')}
                     </Text>
                     <View>
                         <TouchableOpacity style={styles.cellContentView} onPress={() => {
                             this.openAbout();
                         }}>
-                            <Text style={styles.cellTitle}>关于我们</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('My_Setting_About')}</Text>
                             <Text style={styles.cellValue}>{AppVersion}</Text>
-                            <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                            <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.line}>
@@ -641,7 +681,7 @@ export default class Setting extends Component {
                             this.logout();
                         }}>
                             <Text
-                                style={[styles.cellTitle, {flex: 1, color: "#FB4656", textAlign: "center"}]}>退出登录</Text>
+                                style={[styles.cellTitle, {flex: 1, color: "#FB4656", textAlign: "center"}]}>{I18n.t('My_Setting_Logout')}</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
@@ -655,7 +695,7 @@ var styles = StyleSheet.create({
     },
     scrollView: {
         flex: 1,
-        backgroundColor: "#EAEAEA",
+        backgroundColor: "#f5f5f5",
     },
     contentContainer: {
         // paddingVertical: 20
@@ -668,7 +708,7 @@ var styles = StyleSheet.create({
         flexDirection: "row",
         height: 44,
         borderBottomWidth: 1,
-        borderColor: "#EAEAEA",
+        borderColor: "#eaeaea",
         paddingLeft: 10,
         alignItems: "center",
         flex: 1,

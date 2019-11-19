@@ -26,6 +26,7 @@ import {
     NativeModules,
     PermissionsAndroid,
 } from "react-native";
+import I18n from "./../i18n/i18N";
 
 export default class NewFound extends Component {
 
@@ -105,7 +106,7 @@ export default class NewFound extends Component {
                     }}>
                         <View style={NewFoundStyles.searhItemView}>
                             <Text style={NewFoundStyles.iconStyle}>{String.fromCharCode(parseInt("0xe213;"))}</Text>
-                            <Text style={NewFoundStyles.searchItemText}>笔记本</Text>
+                            <Text style={NewFoundStyles.searchItemText}>{I18n.t('Notes')}</Text>
                         </View>
 
                     </TouchableOpacity>
@@ -115,7 +116,7 @@ export default class NewFound extends Component {
                     }}>
                         <View style={NewFoundStyles.searhItemView}>
                             <Text style={NewFoundStyles.iconStyle}>{String.fromCharCode(parseInt("0xe403;"))}</Text>
-                            <Text style={NewFoundStyles.searchItemText}>行程</Text>
+                            <Text style={NewFoundStyles.searchItemText}>{I18n.t('Schedule')}</Text>
                         </View>
 
 
@@ -127,7 +128,7 @@ export default class NewFound extends Component {
 
                         <View style={NewFoundStyles.searhItemView}>
                             <Text style={NewFoundStyles.iconStyle}>{String.fromCharCode(parseInt("0xe211;"))}</Text>
-                            <Text style={NewFoundStyles.searchItemText}>文件传输助手</Text>
+                            <Text style={NewFoundStyles.searchItemText}>{I18n.t('File_Transfer')}</Text>
                         </View>
                     </TouchableOpacity>
 
@@ -137,7 +138,7 @@ export default class NewFound extends Component {
 
                         <View style={NewFoundStyles.searhItemView}>
                             <Text style={NewFoundStyles.iconStyle}>{String.fromCharCode(parseInt("0xf0f5;"))}</Text>
-                            <Text style={NewFoundStyles.searchItemText}>扫一扫</Text>
+                            <Text style={NewFoundStyles.searchItemText}>{I18n.t('scan')}</Text>
                         </View>
                     </TouchableOpacity>
                 </View>

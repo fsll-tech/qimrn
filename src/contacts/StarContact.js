@@ -10,26 +10,34 @@ import {
     Image, NativeModules, DeviceEventEmitter,
 } from 'react-native';
 import NavCBtn from './../common/NavCBtn'
+import I18n from "./../i18n/i18N";
 
 const kStarContact = "kStarContact";
 
 export default class StarContact extends Component{
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "星标联系人";
+        let headerTitle = I18n.t('contact_Starred');
         let leftBtn = (<NavCBtn btnType={NavCBtn.EXIT_APP} moduleName={"Contacts"}/>);
         let rightBtn = (<NavCBtn btnType={NavCBtn.NAV_BUTTON} onPress={() => {
             if (navigation.state.params.onSavePress) {
                 navigation.state.params.onSavePress();
             }
-        }}>添加</NavCBtn>);
+        }}>{I18n.t('contact_Starred_Add')}</NavCBtn>);
         if (navigation.state.params.innerVC) {
             let props = {navigation: navigation, btnType: NavCBtn.BACK_BUTTON};
             leftBtn = (<NavCBtn {...props}/>);
         }
         return {
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitle: headerTitle,
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
             headerRight: rightBtn,

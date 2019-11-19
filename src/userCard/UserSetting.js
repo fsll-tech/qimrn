@@ -12,24 +12,33 @@ import {
     Alert, Platform, BackHandler, DeviceEventEmitter, NativeModules,
 } from 'react-native';
 import NavCBtn from './../common/NavCBtn'
+import I18n from "./../i18n/i18N";
 
 const kStarContact = "kStarContact";
 const kBlackList = "kBlackList";
 
 export default class UserSetting extends Component{
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "设置";
+        let headerTitle = I18n.t('common_setupButton');
         let leftBtn = (<NavCBtn btnType={NavCBtn.EXIT_APP} moduleName={"UserCard"}/>);
         if (navigation.state.params.innerVC) {
             let props = {navigation: navigation, btnType: NavCBtn.BACK_BUTTON};
             leftBtn = (<NavCBtn {...props}/>);
         }
         return {
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitle: headerTitle,
             headerTitleStyle: {
-                fontSize: 18
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
+            headerRight:<View/>,
         };
     };
 
@@ -74,14 +83,14 @@ export default class UserSetting extends Component{
 
     addToBlack(value){
         if(value){
-            Alert.alert("提示","加入黑名单后，您将不再收到对方消息",
+            Alert.alert(I18n.t('Reminder'),I18n.t('blockedUserConfirm'),
                 [
-                    {text:'取消',onPress:() => {
+                    {text:I18n.t('Cancel'),onPress:() => {
                         this.setState({
                             blackState:false,
                         });
                     }},
-                    {text:'确定',onPress:() =>{
+                    {text:I18n.t('Ok'),onPress:() =>{
                         NativeModules.QimRNBModule.setStarOrblackContact(this.userId,kBlackList,value,function (response) {
                             if(response.ok){
                                 this.setState({blackState: value});
@@ -117,7 +126,7 @@ export default class UserSetting extends Component{
                     <View style={styles.line}/>
                     <View>
                         <View style={styles.cellContentView}>
-                            <Text style={styles.cellTitle}>设为星标联系人</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('Starred')}</Text>
                             <View style={styles.cellQRCode}>
                                 <Switch style={{transform: [{scaleX: .8}, {scaleY: .75}]}} value={this.state.starState}
                                         onValueChange={(value) => {
@@ -130,7 +139,7 @@ export default class UserSetting extends Component{
                     <View style={styles.line}/>
                     <View>
                         <View style={styles.cellContentView}>
-                            <Text style={styles.cellTitle}>加入黑名单</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('Block')}</Text>
                             <View style={styles.cellQRCode}>
                                 <Switch style={{transform: [{scaleX: .8}, {scaleY: .75}]}} value={this.state.blackState}
                                         onValueChange={(value) => {
@@ -157,7 +166,7 @@ var styles = StyleSheet.create({
     },
     scrollView: {
         flex: 1,
-        backgroundColor: "#EAEAEA",
+        backgroundColor: "#f5f5f5",
     },
     contentContainer: {
         // paddingVertical: 20
@@ -167,7 +176,7 @@ var styles = StyleSheet.create({
         flexDirection: "row",
         height: 44,
         borderBottomWidth: 1,
-        borderColor: "#EAEAEA",
+        borderColor: "#eaeaea",
         paddingLeft: 10,
         paddingRight: 10,
         alignItems: "center",

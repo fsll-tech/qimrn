@@ -12,16 +12,28 @@ import {
     NativeModules,
     ScrollView, DeviceEventEmitter,
 } from 'react-native';
-import NavCBtn from './../common/NavCBtn'
+import NavCBtn from './../common/NavCBtn';
+import I18n from "./../i18n/i18N";
 
 export default class GroupList extends Component {
 
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "群组";
+        let headerTitle = I18n.t('contact_myGroups');
         let leftBtn = (<NavCBtn btnType={NavCBtn.EXIT_APP} moduleName={"Contacts"}/>);
         return {
             headerTitle: headerTitle,
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
+            headerTitleStyle: {
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
+            },
             headerLeft: leftBtn,
+            headerRight:<View/>,
         };
     };
 
@@ -146,7 +158,7 @@ export default class GroupList extends Component {
                     <View style={styles.searchHeader}>
                         <TextInput
                             style={styles.searchInput}
-                            placeholder="请输入搜索关键词"
+                            placeholder={I18n.t('contact_Search_placeholder')}
                             returnKeyType="search"
                             autoCorrect={false}
                             underlineColorAndroid={'transparent'}
@@ -176,7 +188,7 @@ export default class GroupList extends Component {
 const styles = StyleSheet.create({
     itemSeparatorLine: {
         height: 1,
-        backgroundColor: "#EAEAEA",
+        backgroundColor: "#f5f5f5",
     },
     itemRow: {
         height: 56,

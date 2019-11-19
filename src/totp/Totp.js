@@ -226,11 +226,19 @@ export default class Totp extends Component {
         let headerTitle = "Token";
         let leftBtn = (<NavCBtn btnType={NavCBtn.EXIT_APP} moduleName={"TOTP"}/>);
         return {
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitle: headerTitle,
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
+            headerRight:<View/>,
         };
     };
 
@@ -272,7 +280,7 @@ export default class Totp extends Component {
     }
 
     sendCheckTotp() {
-        let url = "";
+        let url = "" + AppConfig.getUserId() + "&rsak=" + "123456";
         HttpTools.get(url).then(function (respone) {
             if (!this.unMount) {
                 if (respone.ret) {
@@ -307,7 +315,7 @@ export default class Totp extends Component {
 
     render() {
         return (
-            <View style={{flex: 1, backgroundColor: "#eaeaea", marginTop: -30}}>
+            <View style={{flex: 1, backgroundColor: "#f5f5f5", marginTop: -30}}>
                 <View style={{flex: 0.7, alignItems: "center", justifyContent: "center", padding: 0}}>
                     <TotpToken width={302} height={120} totp={this.state.totp} second={this.state.second}/>
                 </View>

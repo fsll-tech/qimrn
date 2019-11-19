@@ -14,11 +14,12 @@ import HttpTools from './../common/HttpTools';
 import AppConfig from "../common/AppConfig";
 import TransferReason from "./TransferReason";
 import QIMCheckBox from '../common/QIMCheckBox';
+import I18n from "./../i18n/i18N";
 
 let deaultHeaderUrl = '/file/v2/download/perm/3ca05f2d92f6c0034ac9aee14d341fc7.png';
 export default class Seats extends Component{
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "会话转移";
+        let headerTitle = I18n.t('Transfer_chats');
         let leftBtn = (<NavCBtn btnType={NavCBtn.EXIT_APP} moduleName={"Merchant"}/>);
         let rightBtn = (<NavCBtn btnType={NavCBtn.NAV_BUTTON} onPress={() => {
             if (navigation.state.params.onSavePress) {
@@ -30,9 +31,16 @@ export default class Seats extends Component{
             leftBtn = (<NavCBtn {...props}/>);
         }
         return {
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitle: headerTitle,
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
             headerRight: rightBtn,
@@ -87,11 +95,11 @@ export default class Seats extends Component{
                         seatsData:response.data,
                     });
                 } else {
-                    Alert.alert("提示","请求数据失败：" + response.errmsg);
+                    Alert.alert(I18n.t('Reminder'),"请求数据失败：" + response.errmsg);
                 }
             }.bind(this),
             function (error) {
-                Alert.alert("提示","请求数据失败：" + error);
+                Alert.alert(I18n.t('Reminder'),"请求数据失败：" + error);
             }.bind(this)
         );
     }

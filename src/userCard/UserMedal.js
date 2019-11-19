@@ -24,10 +24,18 @@ export default class UserMedal extends Component {
         let leftBtn = (<NavCBtn {...props}/>);
         return {
             headerTitle: headerTitle,
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitleStyle: {
-                fontSize: 16,
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
+            headerRight:<View/>,
         };
     };
 
@@ -72,11 +80,11 @@ export default class UserMedal extends Component {
 var styles = StyleSheet.create({
     wrapper: {
         flex: 1,
-        backgroundColor: '#EAEAEA'
+        backgroundColor: '#f5f5f5'
     },
     listSTyle: {
         flex: 1,
-        backgroundColor: '#EAEAEA',
+        backgroundColor: '#f5f5f5',
     },
     cellContentViewStyle: {
         flexDirection: "row",
@@ -104,6 +112,6 @@ var styles = StyleSheet.create({
     },
     lineStyle: {
         height: 1,
-        backgroundColor: '#EAEAEA',
+        backgroundColor: '#f5f5f5',
     }
 });

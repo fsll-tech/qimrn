@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, TouchableOpacity, TextInput} from 'react-native'
 import QIMTextInput from './QIMTextInput';
 import PropTypes from 'prop-types';
 import SVG from '../SVGComponents/SVG';
+import I18n from "../../src/i18n/i18N";
 
 export default class SearchInput extends Component {
     constructor(props) {
@@ -110,7 +111,7 @@ export default class SearchInput extends Component {
                 {
                     this.props.showCancel ?
                         <TouchableOpacity onPress={this.onCancel}>
-                            <Text style={styles.cancelbtn}>取消</Text>
+                            <Text style={styles.cancelbtn}>{I18n.t('Cancel')}</Text>
                         </TouchableOpacity> : null
                 }
             </View>

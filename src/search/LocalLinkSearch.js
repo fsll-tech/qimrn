@@ -15,20 +15,29 @@ import {
 } from 'react-native-qunar-component-library-public';
 import NavCBtn from './../common/NavCBtn';
 import SplitMessage from './../search/SpiltMessage';
+import I18n from "./../i18n/i18N";
 
 export class LocalLinkSearch extends Component {
 
 
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "链接搜索";
+        let headerTitle = I18n.t('local_link_search');
         let props = {navigation: navigation, btnType: NavCBtn.BACK_BUTTON};
         let leftBtn = (<NavCBtn {...props}/>);
         return {
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitle: headerTitle,
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
+            headerRight:<View/>,
         };
     };
 

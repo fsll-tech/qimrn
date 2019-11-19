@@ -16,6 +16,7 @@ import {
 import NavCBtn from "../common/NavCBtn";
 import QIMCheckBox from '../common/QIMCheckBox';
 import AppConfig from "../common/AppConfig";
+import I18n from "./../i18n/i18N";
 
 class GroupMemberKickItem extends Component {
     constructor(props) {
@@ -107,18 +108,25 @@ class GroupKickMemberList extends Component{
 export default class GroupMemberKick extends Component {
 
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "群成员";
+        let headerTitle = I18n.t('groupmember');
         let props = {navigation: navigation, btnType: NavCBtn.BACK_BUTTON};
         let leftBtn = (<NavCBtn {...props}/>);
         let rightBtn = (<NavCBtn btnType={NavCBtn.NAV_BUTTON} onPress={() => {
             if (navigation.state.params.onSavePress) {
                 navigation.state.params.onSavePress();
             }
-        }}>完成</NavCBtn>);
+        }}>{I18n.t('Ok')}</NavCBtn>);
         return {
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitle: headerTitle,
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
             headerRight: rightBtn,
@@ -182,12 +190,12 @@ export default class GroupMemberKick extends Component {
     onKickMembers() {
 
         Alert.alert(
-            '提示',
-            '您确定要踢出群成员吗？',
+            I18n.t('Reminder'),
+            I18n.t('remove_member'),
             [
-                {text: '取消', onPress: () => console.log('Cancel  Pressed'), style: 'cancel'},
+                {text: I18n.t('Cancel'), onPress: () => console.log('Cancel  Pressed'), style: 'cancel'},
                 {
-                    text: '确定', onPress: () => {
+                    text: I18n.t('Ok'), onPress: () => {
                         let params = {};
                         let groupid = this.groupId?this.groupId:'none';
                         params['groupId']=groupid;
@@ -335,7 +343,7 @@ export default class GroupMemberKick extends Component {
                     <View style={styles.searchHeader}>
                         <TextInput
                             style={styles.searchInput}
-                            placeholder="搜索姓名/ID-不少于3字"
+                            placeholder={I18n.t('search_name')}
                             returnKeyType="search"
                             autoCorrect={false}
                             autoFocus={true}

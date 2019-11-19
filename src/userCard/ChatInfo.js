@@ -13,24 +13,34 @@ import {
     Alert,
 } from 'react-native';
 import NavCBtn from "../common/NavCBtn";
+import I18n from "./../i18n/i18N";
+import ScreenUtils from "../common/ScreenUtils";
 
 const {height, width} = Dimensions.get('window');
 
 export default class ChatInfo extends Component {
 
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "聊天信息";
+        let headerTitle = I18n.t('commonchat_Information');
         let leftBtn = (<NavCBtn btnType={NavCBtn.EXIT_APP} moduleName={"UserCard"}/>);
         if (navigation.state.params.innerVC) {
             let props = {navigation: navigation, btnType: NavCBtn.BACK_BUTTON};
             leftBtn = (<NavCBtn {...props}/>);
         }
         return {
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitle: headerTitle,
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
+            headerRight:<View/>,
         };
     };
 
@@ -184,7 +194,7 @@ export default class ChatInfo extends Component {
                 if (response.ok) {
 
                 } else {
-                    Alert.alert("提示", "会话置顶操作失败");
+                    Alert.alert(I18n.t('Reminder'), I18n.t('commonchat_faild_Sticky_on_Top'));
                     this.setState({stickyState: !stickyState2});
                 }
             }.bind(this)
@@ -202,7 +212,7 @@ export default class ChatInfo extends Component {
                 if (responce.ok) {
 
                 } else {
-                    Alert.alert("提示", "操作失败！");
+                    Alert.alert(I18n.t('Reminder'), I18n.t('setupFaild'));
                     this.setState({pushState: !pushState});
                 }
             }.bind(this)
@@ -232,10 +242,10 @@ export default class ChatInfo extends Component {
     // }
 
     clearChatMessage() {
-        Alert.alert('提示', '确定清空么?',
+        Alert.alert(I18n.t('Reminder'), I18n.t('commonchat_clear_History_confirm'),
             [
-                {text: "确定", onPress: this._clearPressOK.bind(this)},
-                {text: "取消", onPress: this._clearPressCancel},
+                {text: I18n.t('Ok'), onPress: this._clearPressOK.bind(this)},
+                {text: I18n.t('Cancel'), onPress: this._clearPressCancel},
 
             ]
         );
@@ -248,11 +258,11 @@ export default class ChatInfo extends Component {
                 <View>
                     <TouchableOpacity style={[styles.cellContentView, {justifyContent: 'space-between'}]}
                                       onPress={this.searchChatHistory.bind(this)}>
-                        <Text style={styles.cellTitle}>查找聊天记录</Text>
+                        <Text style={styles.cellTitle}>{I18n.t('comonchat_search_History')}</Text>
                         <View style={styles.redView}>
                             <View style={styles.round}>
                             </View>
-                            <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                            <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -263,9 +273,9 @@ export default class ChatInfo extends Component {
                 <View>
                     <TouchableOpacity style={[styles.cellContentView, {justifyContent: 'space-between'}]}
                                       onPress={this.searchChatHistory.bind(this)}>
-                        <Text style={styles.cellTitle}>查找聊天记录</Text>
+                        <Text style={styles.cellTitle}>{I18n.t('comonchat_search_History')}</Text>
 
-                        <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                        <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                     </TouchableOpacity>
                 </View>
             );
@@ -286,51 +296,78 @@ export default class ChatInfo extends Component {
     getHeaderImage(headerUri){
         if (headerUri == null || headerUri == '') {
             return (
-                <TouchableOpacity style={styles.userView} onPress={this.openUserCard.bind(this)}>
+                <TouchableOpacity style={styles.headerView} onPress={this.openUserCard.bind(this)}>
                     <Image source={require('../images/single_chat_icon.png')} style={styles.userHeaderImage}/>
-                    <Text style={styles.userName} numberOfLines={1}>{this.state.name}</Text>
+                    <View style={styles.userNameView}>
+                        <Text style={styles.userName} numberOfLines={1}>{this.state.name}</Text>
+                    </View>
+                    <Image source={require('../images/new_arrow_right.png')} style={styles.userHeaderArrowView}/>
                 </TouchableOpacity>
             );
         }else {
             return (
-                <TouchableOpacity style={styles.userView} onPress={this.openUserCard.bind(this)}>
+                <TouchableOpacity style={styles.headerView} onPress={this.openUserCard.bind(this)}>
                     <Image source={{uri:headerUri}} style={styles.userHeaderImage}/>
-                    <Text style={styles.userName} numberOfLines={1}>{this.state.name}</Text>
+                    <View style={styles.userNameView}>
+                        <Text style={styles.userName} numberOfLines={1}>{this.state.name}</Text>
+                    </View>
+                    <Image source={require('../images/new_arrow_right.png')} style={styles.userHeaderArrowView}/>
                 </TouchableOpacity>
             );
         }
+    }
+
+    _renderLineView() {
+        return (
+            <View style={styles.lineBaseView}>
+                <View style={styles.lineView}></View>
+            </View>
+        )
     }
 
     render() {
         return (
             <View style={styles.wrapper}>
                 <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
-                    <View style={styles.headerView}>
+                    {/*<View style={styles.headerView}>*/}
                         {this.getHeaderImage(this.state.headerUri)}
-                        <TouchableOpacity style={styles.addMemberBtn} onPress={() => {
-                            this.addGroupMember();
-                        }}>
-                            <Image source={require('../images/add_member.png')} style={styles.addMemberIcon}/>
-                        </TouchableOpacity>
-                    </View>
+                        {/*<Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>*/}
+                        {/*<TouchableOpacity style={styles.addMemberBtn} onPress={() => {*/}
+                            {/*this.addGroupMember();*/}
+                        {/*}}>*/}
+                            {/*<Image source={require('../images/add_member.png')} style={styles.addMemberIcon}/>*/}
+                        {/*</TouchableOpacity>*/}
+                    {/*</View>*/}
+                    {this._renderLineView()}
+
+                    <TouchableOpacity style={[styles.cellContentView, {alignItems: 'center'}]} onPress={() => {
+                        this.addGroupMember();
+                    }}>
+                        <Text style={styles.addMemberIcon}> {String.fromCharCode(0xf298)}</Text>
+                        <Text style={styles.addMemberTitle}>{I18n.t('Join_in_Group')}</Text>
+                    </TouchableOpacity>
 
                     <View style={styles.line}/>
                     <View>
                         <View style={styles.cellContentView}>
-                            <Text style={styles.cellTitle}>消息提醒</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('singlechat_Messages_Notification')}</Text>
                             <View style={styles.cellQRCode}>
-                                <Switch style={{transform: [{scaleX: .8}, {scaleY: .75}]}} value={this.state.pushState}
+                                <Switch style={{transform: [{scaleX: .8}, {scaleY: .75}]}}
+                                        value={this.state.pushState}
+                                        onTintColor={'#00CABE'}
                                         onValueChange={(value) => {
                                             this.setState({pushState: value});
                                             this.changeChatPushState(value);
                                         }}/>
                             </View>
                         </View>
+                        {this._renderLineView()}
                         <TouchableOpacity style={styles.cellContentView}>
-                            <Text style={styles.cellTitle}>置顶聊天</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('commonchat_Sticky_on_Top')}</Text>
                             <View style={styles.cellQRCode}>
                                 <Switch style={{transform: [{scaleX: .8}, {scaleY: .75}]}}
                                         value={this.state.stickyState}
+                                        onTintColor={'#00CABE'}
                                         onValueChange={(value) => {
                                             this.setState({stickyState: value});
                                             this.changeChatTop(value);
@@ -359,10 +396,11 @@ export default class ChatInfo extends Component {
                         {/*</TouchableOpacity>*/}
                     {/*</View>*/}
                     <View>
+                        {this._renderLineView()}
                         <TouchableOpacity style={styles.cellContentView} onPress={this.clearChatMessage.bind(this)}>
-                            <Text style={styles.cellTitle}>清空聊天记录</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('commonchat_clear_History')}</Text>
                             <Text style={styles.cellValue}></Text>
-                            <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                            <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
@@ -373,11 +411,12 @@ export default class ChatInfo extends Component {
 var styles = StyleSheet.create({
     wrapper: {
         flex: 1,
+        backgroundColor:'#f5f5f5',
     },
     tabBar: {
         height: 64,
         flexDirection: "row",
-        backgroundColor: "#EAEAEA",
+        backgroundColor: "#f5f5f5",
     },
     leftTab: {
         flex: 1,
@@ -387,18 +426,26 @@ var styles = StyleSheet.create({
     },
     scrollView: {
         flex: 1,
-        backgroundColor: "#EAEAEA",
+        backgroundColor: "#f5f5f5",
     },
     contentContainer: {
         // paddingVertical: 20
+    },
+    dividingline: {
+        flex: 1,
+        height: 1,
+        backgroundColor: '#ee4b35',
+        marginLeft: 16,
+        marginRight: 16,
     },
     line: {
         height: 10,
     },
     cellTitle: {
         width: 150,
-        fontSize: 14,
-        color: "#333333",
+        fontSize: 16,
+        color: "#212121",
+        marginLeft: 10,
     },
     cellValue: {
         flex: 1,
@@ -408,14 +455,14 @@ var styles = StyleSheet.create({
     rightArrow: {
         width: 20,
         height: 20,
-        marginRight: -7,
+        // marginRight: -7,
     },
     cellContentView: {
         backgroundColor: "#FFF",
         flexDirection: "row",
-        height: 44,
-        borderBottomWidth: 1,
-        borderColor: "#EAEAEA",
+        height: 60,
+        // borderBottomWidth: 1,
+        // borderColor: "#EAEAEA",
         paddingLeft: 10,
         paddingRight: 10,
         alignItems: "center",
@@ -426,28 +473,41 @@ var styles = StyleSheet.create({
         alignItems: "flex-end",
     },
     headerView: {
-        height: 94,
-        backgroundColor: "#FFF",
+        flex: 1,
+        height: 100,
+        backgroundColor: "#ffffff",
+        alignItems: "center",
+        paddingLeft: 10,
+        paddingRight: 10,
         flexDirection: 'row',
     },
     userView: {
-        width: 50,
-        marginLeft: 26,
-        marginTop: 15,
+        flex: 1,
+        marginLeft: 11,
+        height: 100,
+        flexDirection: 'row',
+        alignItems:'center',
+        backgroundColor: '#ff2447',
     },
     userHeaderImage: {
-        width: 48,
-        height: 48,
-        borderRadius: 5,
-        borderColor: "#D1D1D1",
-        borderWidth: 1,
+        width: 60,
+        height: 60,
+        borderRadius: 30,
+        borderColor: "#EEEEEE",
+    },
+    userNameView: {
+        flex: 1,
+        backgroundColor: '#ffffff',
+        marginLeft: 10,
+        marginRight: 30,
     },
     userName: {
-        fontSize: 12,
-        color: '#616161',
-        textAlign: 'center',
-        marginTop: 5,
-
+        fontSize: 16,
+        color: "#212121",
+    },
+    userHeaderArrowView:  {
+        width: 20,
+        height: 20,
     },
     addMemberBtn: {
         width: 46,
@@ -461,8 +521,17 @@ var styles = StyleSheet.create({
         marginLeft: 26,
     },
     addMemberIcon: {
-        width: 24,
-        height: 24,
+        marginLeft: -5,
+        marginTop: 2,
+        fontFamily: "QTalk-QChat",
+        fontSize: ScreenUtils.setSpText(28),
+        color: "#00CABE",
+    },
+    addMemberTitle: {
+        width: 150,
+        fontSize: 16,
+        color: "#212121",
+        marginLeft: 5,
     },
     redView: {
 
@@ -477,4 +546,14 @@ var styles = StyleSheet.create({
         backgroundColor: 'red',
         alignSelf: 'center'
     },
+    lineBaseView: {
+        backgroundColor: '#FFFFFF',
+    },
+    lineView: {
+        marginLeft: 16,
+        marginRight: 16,
+        height: 1,
+        backgroundColor: '#EEEEEE',
+    },
+
 });

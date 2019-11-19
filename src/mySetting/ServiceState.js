@@ -18,19 +18,28 @@ import {
 } from 'react-native';
 import NavCBtn from "../common/NavCBtn";
 import AppConfig from "../common/AppConfig";
+import I18n from "./../i18n/i18N";
 
 export default class ServiceState extends Component {
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "服务状态";
+        let headerTitle = I18n.t('My_Setting_Service_Status');
         let props = {navigation: navigation, btnType: NavCBtn.BACK_BUTTON};
         let leftBtn = (<NavCBtn {...props}/>);
         // let leftBtn = (<NavCBtn btnType={NavCBtn.BACK_BUTTON} moduleName={"Setting"}/>);
         return {
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitle: headerTitle,
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
+            headerRight:<View/>,
         };
     };
 
@@ -92,7 +101,7 @@ export default class ServiceState extends Component {
                         JsonData:this.ds.cloneWithRows(this.state.SeatArray)
                     });;
                 }else{
-                    alert("设置失败！")
+                    alert(I18n.t('setupFaild'));
                 }
             }.bind(this));
         }
@@ -103,31 +112,31 @@ export default class ServiceState extends Component {
         return(
             <View style={styles.wrapper_row}>
                 <View style={styles.shopRow}>
-                    <Text style={styles.cellTitle}>店铺名：</Text>
+                    <Text style={styles.cellTitle}>{I18n.t('Store_Name')}：</Text>
                     <Text style={styles.cellTitleValue}>{rowData.sname}</Text>
                 </View>
 
                     <TouchableOpacity style={styles.selectRow} onPress={() => {
                         this._settingServiceState('0',rowData,rowId);
                     }}>
-                        <Text style={styles.cellContent}>标准模式</Text>
-                        <Text style={styles.cellContentValue}>（在线时才接收咨询，默认）</Text>
+                        <Text style={styles.cellContent}>{I18n.t('Standard_Mode')}</Text>
+                        <Text style={styles.cellContentValue}>{I18n.t('Standard_Mode_Detail')}</Text>
                         {this._showImage('0' == rowData.st)}
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.selectRow} onPress={() => {
                         this._settingServiceState('4',rowData,rowId);
                     }}>
-                        <Text style={styles.cellContent}>超人模式</Text>
-                        <Text style={styles.cellContentValue}>（不在线也接收咨询）</Text>
+                        <Text style={styles.cellContent}>{I18n.t('Super_Mode')}</Text>
+                        <Text style={styles.cellContentValue}>{I18n.t('Super_Mode_Detail')}</Text>
                         {this._showImage('4' == rowData.st)}
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.selectRow} onPress={() => {
                         this._settingServiceState('1',rowData,rowId);
                     }}>
-                        <Text style={styles.cellContent}>勿扰模式</Text>
-                        <Text style={styles.cellContentValue}>（在线也不接收咨询）</Text>
+                        <Text style={styles.cellContent}>{I18n.t('Snooze_Mode')}</Text>
+                        <Text style={styles.cellContentValue}>{I18n.t('Snooze_Mode_Detail')}</Text>
                         {this._showImage('1' == rowData.st)}
                     </TouchableOpacity>
             </View>
@@ -144,7 +153,7 @@ var styles = StyleSheet.create({
     },
     scrollView: {
         flex: 1,
-        backgroundColor: "#EAEAEA",
+        backgroundColor: "#f5f5f5",
     },
     cellTitle: {
         color: "#999999",
@@ -180,7 +189,7 @@ var styles = StyleSheet.create({
         flexDirection: "row",
         height: 50,
         borderBottomWidth: 1,
-        borderColor: "#EAEAEA",
+        borderColor: "#eaeaea",
         paddingLeft: 10,
         paddingRight: 10,
         alignItems: "center",

@@ -19,6 +19,7 @@ import {
 import HttpTools from "../common/HttpTools";
 import AppConfig from "../common/AppConfig";
 import native from "../webView/native";
+import I18n from "./../i18n/i18N";
 
 const {height, width} = Dimensions.get('window');
 
@@ -636,7 +637,7 @@ export default class FoundPage extends PureComponent {
                 //    <View style={styles.loadFaildContentView}>
                 //       {/*<Image style={styles.loadFaildImageStyle} source={require('../images/EmptyNotFound.png')}></Image>*/}
                 <Text style={styles.loadFaildTextStyle}>
-                    功能还未配置,请先进行配置后重启客户端!
+                    {/*功能还未配置,请先进行配置后重启客户端!*/}
                 </Text>
                 //  </View>
                 //</View>
@@ -671,7 +672,7 @@ export default class FoundPage extends PureComponent {
                         }}>
                             <View style={NewFoundStyles.searhItemView}>
                                 <Text style={NewFoundStyles.iconStyle1}>{String.fromCharCode(parseInt("0xe7e8;"))}</Text>
-                                <Text style={NewFoundStyles.searchItemText}>笔记本</Text>
+                                <Text style={NewFoundStyles.searchItemText}>{I18n.t('Notes')}</Text>
                             </View>
 
                         </TouchableOpacity>
@@ -681,7 +682,7 @@ export default class FoundPage extends PureComponent {
                         }}>
                             <View style={NewFoundStyles.searhItemView}>
                                 <Text style={NewFoundStyles.iconStyle2}>{String.fromCharCode(parseInt("0xe7eb;"))}</Text>
-                                <Text style={NewFoundStyles.searchItemText}>行程</Text>
+                                <Text style={NewFoundStyles.searchItemText}>{I18n.t('Schedule')}</Text>
                             </View>
 
 
@@ -693,7 +694,7 @@ export default class FoundPage extends PureComponent {
 
                             <View style={NewFoundStyles.searhItemView}>
                                 <Text style={NewFoundStyles.iconStyle3}>{String.fromCharCode(parseInt("0xe7ea;"))}</Text>
-                                <Text style={NewFoundStyles.searchItemText}>文件传输助手</Text>
+                                <Text style={NewFoundStyles.searchItemText}>{I18n.t('File_Transfer')}</Text>
                             </View>
                         </TouchableOpacity>
 
@@ -703,7 +704,7 @@ export default class FoundPage extends PureComponent {
 
                             <View style={NewFoundStyles.searhItemView}>
                                 <Text style={NewFoundStyles.iconStyle4}>{String.fromCharCode(parseInt("0xe7e9;"))}</Text>
-                                <Text style={NewFoundStyles.searchItemText}>扫一扫</Text>
+                                <Text style={NewFoundStyles.searchItemText}>{I18n.t('scan')}</Text>
                             </View>
                         </TouchableOpacity>
                     </View>

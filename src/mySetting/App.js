@@ -23,6 +23,7 @@ import ServiceState from "./ServiceState";
 import NotificationSetting from './NotificationSetting'
 import PrivacySetting from './PrivacySetting'
 import AlertVoiceSetting from "./AlertVoiceSetting";
+import CommonNav from "../common/CommonNav";
 
 export default class App extends Component {
     constructor(props) {
@@ -83,6 +84,7 @@ export default class App extends Component {
             headerMode:'screen',
             initialRouteName: route.name,
             initialRouteParams: this.props,
+            navigationOptions: CommonNav.commonNavigationOptions(),
             transitionConfig: () => ({screenInterpolator: CardStackStyleInterpolator.forHorizontal})
         });
 

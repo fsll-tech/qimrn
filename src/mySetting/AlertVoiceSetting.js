@@ -15,18 +15,27 @@ import {
     Switch, Alert,
 } from 'react-native';
 import NavCBtn from "../common/NavCBtn";
+import I18n from "../i18n/i18N";
 
 export default class AlertVoiceSetting extends Component{
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "提示音设置";
+        let headerTitle = I18n.t('My_Setting_GeneralSettings_NotificationSound');
         let props = {navigation:navigation,btnType:NavCBtn.BACK_BUTTON};
         let leftBtn = (<NavCBtn {...props}/>);
         return {
             headerTitle:headerTitle,
-            headerTitleStyle:{
-                fontSize:14
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
+            headerTitleStyle: {
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft:leftBtn,
+            headerRight:<View/>,
         };
     };
 
@@ -57,7 +66,7 @@ export default class AlertVoiceSetting extends Component{
                 if (response.ok) {
 
                 } else {
-                    Alert.alert("提示", "修改通知开启状态失败");
+                    Alert.alert(I18n.t('Reminder'), I18n.t('faild_change_turning_notifications'));
                     this.setState({alertVoiceState: !state});
                 }
             }.bind(this)
@@ -82,7 +91,7 @@ export default class AlertVoiceSetting extends Component{
                        this.changeConfigAlertStatus(this.state.alertVoiceState);
                    });
               }}>
-                  <Text style={styles.cellTitle}>强提示音</Text>
+                  <Text style={styles.cellTitle}>{I18n.t('My_Setting_GeneralSettings_NotificationSoundStrong')}</Text>
                   <View style={styles.cellValue2}>
                       {this.state.alertVoiceState ? <Image source={require('../images/selected_icon.png')} style={styles.rightArrow}/> : null}
                   </View>
@@ -93,7 +102,7 @@ export default class AlertVoiceSetting extends Component{
                       this.changeConfigAlertStatus(this.state.alertVoiceState);
                   });
                 }}>
-                  <Text style={styles.cellTitle}>弱提示音</Text>
+                  <Text style={styles.cellTitle}>{I18n.t('My_Setting_GeneralSettings_NotificationSoundWeak')}</Text>
                   <View style={styles.cellValue2}>
                       {!this.state.alertVoiceState ? <Image source={require('../images/selected_icon.png')} style={styles.rightArrow}/>:null}
                   </View>
@@ -121,7 +130,7 @@ var styles = StyleSheet.create({
     },
     scrollView: {
         flex: 1,
-        backgroundColor: "#EAEAEA",
+        backgroundColor: "#f5f5f5",
     },
     contentContainer: {
         // paddingVertical: 20
@@ -134,7 +143,7 @@ var styles = StyleSheet.create({
         flexDirection: "row",
         height: 44,
         borderBottomWidth: 1,
-        borderColor: "#EAEAEA",
+        borderColor: "#eaeaea",
         paddingLeft: 10,
         alignItems: "center",
         flex: 1,

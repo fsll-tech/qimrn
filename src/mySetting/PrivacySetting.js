@@ -16,19 +16,28 @@ import {
 } from 'react-native';
 import NavCBtn from "../common/NavCBtn";
 import AppConfig from "../common/AppConfig";
+import I18n from "../i18n/i18N";
 
 export default class PrivacySetting extends Component {
 
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "隐私设置";
+        let headerTitle = I18n.t('My_Setting_Privacy');
         let props = {navigation:navigation,btnType:NavCBtn.BACK_BUTTON};
         let leftBtn = (<NavCBtn {...props}/>);
         return {
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitle: headerTitle,
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
+            headerRight:<View/>,
         };
     };
 
@@ -69,9 +78,9 @@ export default class PrivacySetting extends Component {
                         <TouchableOpacity style={styles.cellContentView} onPress={() => {
                             this.openBlackContacts();
                         }}>
-                            <Text style={styles.cellTitle}>我的黑名单</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('My_Setting_Privacy_BlockedList')}</Text>
                             <Text style={styles.cellValue}></Text>
-                            <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                            <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                         </TouchableOpacity>
 
                     </View>
@@ -87,7 +96,7 @@ var styles = StyleSheet.create({
     },
     scrollView: {
         flex: 1,
-        backgroundColor: "#EAEAEA",
+        backgroundColor: "#f5f5f5",
     },
     contentContainer: {
         // paddingVertical: 20
@@ -100,7 +109,7 @@ var styles = StyleSheet.create({
         flexDirection: "row",
         height: 44,
         borderBottomWidth: 1,
-        borderColor: "#EAEAEA",
+        borderColor: "#eaeaea",
         paddingLeft: 10,
         alignItems: "center",
         flex: 1,

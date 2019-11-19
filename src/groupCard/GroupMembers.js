@@ -4,18 +4,18 @@ import {
     StyleSheet,
     Text,
     Image,
+    Platform,
     View,
     InteractionManager,
     TouchableOpacity, NativeModules, DeviceEventEmitter, Alert,
 } from 'react-native';
 import NavCBtn from "../common/NavCBtn";
+import I18n from "./../i18n/i18N";
 
 export default class GroupMembers extends PureComponent {
 
-
-
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "群成员";
+        let headerTitle = I18n.t('groupmember');
         let props = {navigation:navigation,btnType:NavCBtn.BACK_BUTTON};
         let leftBtn = (<NavCBtn {...props}/>);
         let rightBtn = (<NavCBtn btnType={NavCBtn.NAV_BUTTON} onPress={() => {
@@ -24,9 +24,16 @@ export default class GroupMembers extends PureComponent {
             }
         }}>{navigation.getParam("rightText")}</NavCBtn>);
         return {
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitle: headerTitle,
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
             headerRight: rightBtn,
@@ -60,7 +67,7 @@ export default class GroupMembers extends PureComponent {
         });
         if (this.affiliation == 0){
             this.props.navigation.setParams({
-                rightText: '管理员设置',
+                rightText: I18n.t('manageGroupAdministrators'),
             })
         }
 
@@ -90,7 +97,7 @@ export default class GroupMembers extends PureComponent {
         this.settingState = !this.settingState;
         // this.setState({settingState:!isSettingState});
         this.props.navigation.setParams({
-            rightText: this.settingState ? '取消' : '管理员设置',
+            rightText: this.settingState ? I18n.t('Cancel') : I18n.t('manageGroupAdministrators'),
         })
     }
 
@@ -126,11 +133,11 @@ export default class GroupMembers extends PureComponent {
 
 
     confirmMotice(xmppid,affiliation,name){
-        let message = affiliation==1 ? "确定移除该管理员吗？" : "确定将该成员提升为管理员吗？";
+        let message = affiliation==1 ? I18n.t('remove_administrator_confirm') : I18n.t('set_administrator_confirm');
         Alert.alert('提示', message,
             [
-                {text: "确定", onPress: ()=> this.setGroupAdmin(xmppid,affiliation,name)},
-                {text: "取消", onPress: ()=> console.log('cancel Pressed')},
+                {text: I18n.t('Ok'), onPress: ()=> this.setGroupAdmin(xmppid,affiliation,name)},
+                {text: I18n.t('Cancel'), onPress: ()=> console.log('cancel Pressed')},
             ]
         )
 
@@ -144,16 +151,16 @@ export default class GroupMembers extends PureComponent {
             let settingSty = styles.settingTextStyle0;
             let borderSty = styles.borderStyle1;
             if (affiliation == '0') {
-                role = "群主";
+                role = I18n.t('groupOwner');
                 sty = styles.memberRole0;
             } else if (affiliation == '1') {
-                role = "管理员";
+                role = I18n.t('groupAdministrator');
                 sty = styles.memberRole1;
                 settingSty = styles.settingTextStyle1;
-                settingText = "移除管理员";
+                settingText = I18n.t('remove_administrator');
             } else {
                 borderSty = styles.borderStyle0;
-                settingText = "设为管理员";
+                settingText = I18n.t('set_administrator');
             }
             return <TouchableOpacity style={borderSty} onPress={() => {
                 this.confirmMotice(xmppid,affiliation,name);
@@ -176,10 +183,10 @@ export default class GroupMembers extends PureComponent {
         let role = "";
         let sty = styles.memberRole2;
         if (affiliation == '0') {
-            role = "群主";
+            role = I18n.t('groupOwner');
             sty = styles.memberRole0;
         } else if (affiliation == '1') {
-            role = "管理员";
+            role = I18n.t('groupAdministrator');
             sty = styles.memberRole1;
         } else {
 
@@ -230,7 +237,11 @@ export default class GroupMembers extends PureComponent {
     }
 
     _separator = () => {
-        return <View style={{height:0.1,backgroundColor:'#ccc'}}/>;
+        if (Platform.OS == 'ios') {
+            return <View style={{height: 0, backgroundColor: '#fff'}}/>
+        } else {
+            return <View style={{height:0.1,backgroundColor:'#ccc'}}/>;
+        }
     }
 }
 var styles = StyleSheet.create({

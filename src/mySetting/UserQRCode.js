@@ -9,21 +9,30 @@ import {
     Dimensions,
 } from 'react-native';
 import NavCBtn from "../common/NavCBtn";
+import I18n from "./../i18n/i18N";
 
 const {height, width} = Dimensions.get('window');
 export default class UserQRCode extends Component {
 
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "二维码名片";
+        let headerTitle = I18n.t('My_QRCode');
         let props = {navigation:navigation,btnType:NavCBtn.BACK_BUTTON};
         // let leftBtn = (<NavCBtn {...props}/>);
         let leftBtn = (<NavCBtn btnType={NavCBtn.EXIT_APP} moduleName={"MySetting"}/>);
         return {
             headerTitle: headerTitle,
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
+            headerRight:<View/>,
         };
     };
 

@@ -42,9 +42,11 @@ export class TripTypeSelect extends Component {
         return {
             headerTitle: headerTitle,
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
+            headerRight:<View/>,
 
         };
     };

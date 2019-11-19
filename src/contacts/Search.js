@@ -14,10 +14,12 @@ import {
 import NavCBtn from './../common/NavCBtn'
 import HttpTools from './../common/HttpTools';
 import AppConfig from "../common/AppConfig";
+import I18n from "./../i18n/i18N";
+
 let deaultHeaderUrl = '/file/v2/download/perm/3ca05f2d92f6c0034ac9aee14d341fc7.png';
 export default class Search extends Component {
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "搜索";
+        let headerTitle = I18n.t('contact_Search');
         let leftBtn = (<NavCBtn btnType={NavCBtn.EXIT_APP} moduleName={"Contacts"}/>);
         if (navigation.state.params.innerVC) {
             let props = {navigation: navigation, btnType: NavCBtn.BACK_BUTTON};
@@ -25,10 +27,18 @@ export default class Search extends Component {
         }
         return {
             headerTitle: headerTitle,
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
+            headerRight:<View/>,
         };
     };
 
@@ -186,7 +196,7 @@ export default class Search extends Component {
                     </Picker>
                     <TextInput
                         style={styles.input}
-                        placeholder="请输入搜索关键词"
+                        placeholder={I18n.t('contact_Search_placeholder')}
                         returnKeyType="search"
                         autoCorrect={false}
                         underlineColorAndroid={'transparent'}

@@ -13,20 +13,29 @@ import {
 import moment from 'moment';
 import NavCBtn from './../common/NavCBtn';
 import {Agenda, CalendarList, LocaleConfig, Calendar, parseDate, xdateToData} from 'react-native-calendars';
+import I18n from "./../i18n/i18N";
 
 export class LocalDateSearch extends Component {
 
 
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "日期搜索";
+        let headerTitle = I18n.t('local_date_search');
         let props = {navigation: navigation, btnType: NavCBtn.BACK_BUTTON};
         let leftBtn = (<NavCBtn {...props}/>);
         return {
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitle: headerTitle,
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
+            headerRight:<View/>,
         };
     };
 

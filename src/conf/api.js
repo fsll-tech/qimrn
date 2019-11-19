@@ -4,6 +4,6 @@
 
 module.exports = {
     'update': {
-        checkUpdate: 'https://opsapp.qunar.com/opsappupgrade/upgrade/{VERSION}/{PLATFORM}/{APP}',
+        checkUpdate: '',
     },
 };

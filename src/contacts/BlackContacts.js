@@ -10,12 +10,13 @@ import {
     Image, NativeModules, DeviceEventEmitter,
 } from 'react-native';
 import NavCBtn from './../common/NavCBtn'
+import I18n from "./../i18n/i18N";
 
 const kBlackList = "kBlackList";
 
 export default class BlackContacts extends Component{
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "黑名单";
+        let headerTitle = I18n.t('contact_BlockedList');
         let leftBtn = (<NavCBtn btnType={NavCBtn.EXIT_APP} moduleName={"Contacts"}/>);
 
         if (navigation.state.params.innerVC) {
@@ -24,9 +25,17 @@ export default class BlackContacts extends Component{
         }
         return {
             headerTitle: headerTitle,
-            headerTitleStyle: {
-                fontSize: 14
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
             },
+            headerTitleStyle: {
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
+            },
+            headerRight:<View/>,
             headerLeft: leftBtn,
         };
     };

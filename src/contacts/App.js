@@ -22,6 +22,7 @@ import checkVersion from "./../conf/AutoUpdateRNBundle";
 import AppConfig from "../common/AppConfig";
 import UserCard from "../userCard/UserCard";
 import UserSetting from "../userCard/UserSetting";
+import CommonNav from "../common/CommonNav";
 
 export default class App extends Component {
     constructor(props) {
@@ -74,6 +75,7 @@ export default class App extends Component {
             headerMode:'screen',
             initialRouteName: route.name,
             initialRouteParams: initData,
+            navigationOptions: CommonNav.commonNavigationOptions(),
             transitionConfig: () => ({screenInterpolator: CardStackStyleInterpolator.forHorizontal})
         });
 

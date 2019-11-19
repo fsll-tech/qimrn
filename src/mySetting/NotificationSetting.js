@@ -16,19 +16,28 @@ import {
 } from 'react-native';
 import NavCBtn from "../common/NavCBtn";
 import AppConfig from "../common/AppConfig";
+import I18n from "./../i18n/i18N";
 
 export default class NotificationSetting extends Component {
 
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "通知";
+        let headerTitle = I18n.t('My_Setting_Notifications');
         let props = {navigation:navigation,btnType:NavCBtn.BACK_BUTTON};
         let leftBtn = (<NavCBtn {...props}/>);
         return {
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitle: headerTitle,
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
+            headerRight:<View/>,
         };
     };
 
@@ -87,7 +96,7 @@ export default class NotificationSetting extends Component {
                 if (response.ok) {
 
                 } else {
-                    Alert.alert("提示", "修改在线也收通知状态失败");
+                    Alert.alert(I18n.t('Reminder'), I18n.t('faild_change_notification_online'));
                     this.setState({onLinePushState: !onlineState});
                 }
             }.bind(this)
@@ -100,7 +109,7 @@ export default class NotificationSetting extends Component {
                 if (response.ok) {
 
                 } else {
-                    Alert.alert("提示", "修改通知提示音状态失败");
+                    Alert.alert(I18n.t('Reminder'), I18n.t('faild_change_notification_sound'));
                     this.setState({notifySoundState: !notifySoundState});
                 }
             }.bind(this)
@@ -113,7 +122,7 @@ export default class NotificationSetting extends Component {
                 if (response.ok) {
 
                 } else {
-                    Alert.alert("提示", "修改通知震动状态失败");
+                    Alert.alert(I18n.t('Reminder'), I18n.t('faild_change_notification_vibration'));
                     this.setState({notifyVibrationState: !notifyVibrationState});
                 }
             }.bind(this)
@@ -126,7 +135,7 @@ export default class NotificationSetting extends Component {
                 if (response.ok) {
 
                 } else {
-                    Alert.alert("提示", "修改通知开启状态失败");
+                    Alert.alert(I18n.t('Reminder'), I18n.t('faild_change_turning_notifications'));
                     this.setState({startNotifyState: !startNotifyState});
                 }
             }.bind(this)
@@ -139,7 +148,7 @@ export default class NotificationSetting extends Component {
                 if (response.ok) {
 
                 } else {
-                    Alert.alert("提示", "修改通知显示详情状态失败");
+                    Alert.alert(I18n.t('Reminder'), I18n.t('faild_change_notification_preview'));
                     this.setState({notifyPushDetailsState: !notifyPushDetailsState});
                 }
             }.bind(this)
@@ -151,7 +160,7 @@ export default class NotificationSetting extends Component {
             <View>
 
                 <View style={styles.cellContentView}>
-                    <Text style={styles.cellTitle}>通知震动提示</Text>
+                    <Text style={styles.cellTitle}>{I18n.t('My_Setting_NotificationsVibration')}</Text>
                     <View style={styles.cellValue2}>
                         <Switch style={{transform: [{scaleX: .8}, {scaleY: .8}]}}
                                 value={this.state.notifyVibrationState}
@@ -163,7 +172,7 @@ export default class NotificationSetting extends Component {
                 </View>
 
                 <View style={styles.cellContentView}>
-                    <Text style={styles.cellTitle}>开启消息推送</Text>
+                    <Text style={styles.cellTitle}>{I18n.t('My_Setting_NotificationsSwitch')}</Text>
                     <View style={styles.cellValue2}>
                         <Switch style={{transform: [{scaleX: .8}, {scaleY: .8}]}} value={this.state.startPushState}
                                 onValueChange={(value) => {
@@ -174,7 +183,7 @@ export default class NotificationSetting extends Component {
                 </View>
 
                 <View style={styles.cellContentView}>
-                    <Text style={styles.cellTitle}>通知显示消息详情</Text>
+                    <Text style={styles.cellTitle}>{I18n.t('My_Setting_NotificationsShowDetail')}</Text>
                     <View style={styles.cellValue2}>
                         <Switch style={{transform: [{scaleX: .8}, {scaleY: .8}]}}
                                 value={this.state.notifyPushDetailsState}
@@ -195,12 +204,12 @@ export default class NotificationSetting extends Component {
             <View style={styles.wrapper}>
                 <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
                     <Text style={styles.sectionHeader}>
-                        通知
+                        {I18n.t('My_Setting_Notifications')}
                     </Text>
 
                     <View>
                         <View style={styles.cellContentView}>
-                            <Text style={styles.cellTitle}>在线接收通知</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('My_Setting_NotificationsOnline')}</Text>
                             <View style={styles.cellValue2}>
                                 <Switch style={{transform: [{scaleX: .8}, {scaleY: 0.8}]}}
                                         value={this.state.onLinePushState}
@@ -212,7 +221,7 @@ export default class NotificationSetting extends Component {
                         </View>
 
                         <View style={styles.cellContentView}>
-                            <Text style={styles.cellTitle}>通知提示音</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('My_Setting_NotificationsSound')}</Text>
                             <View style={styles.cellValue2}>
                                 <Switch style={{transform: [{scaleX: .8}, {scaleY: .8}]}}
                                         value={this.state.notifySoundState}
@@ -238,7 +247,7 @@ var styles = StyleSheet.create({
     },
     scrollView: {
         flex: 1,
-        backgroundColor: "#EAEAEA",
+        backgroundColor: "#f5f5f5",
     },
     contentContainer: {
         // paddingVertical: 20
@@ -251,7 +260,7 @@ var styles = StyleSheet.create({
         flexDirection: "row",
         height: 44,
         borderBottomWidth: 1,
-        borderColor: "#EAEAEA",
+        borderColor: "#eaeaea",
         paddingLeft: 10,
         alignItems: "center",
         flex: 1,

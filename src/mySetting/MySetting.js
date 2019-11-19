@@ -21,7 +21,7 @@ import LoadingView from "../common/LoadingView";
 import RNRestart from 'react-native-restart';
 
 import checkVersion from "./../conf/CheckUpdate";
-
+import I18n from "./../i18n/i18N";
 const {height, width} = DimensionsUtil.getSize();
 // const {height, width} = Dimensions.get('window');
 export default class UserCard extends Component {
@@ -36,6 +36,7 @@ export default class UserCard extends Component {
         super(props);
         this.state = {
             userInfo: {},
+            medalList: [],
         };
         this.unMount = false;
     }
@@ -54,13 +55,20 @@ export default class UserCard extends Component {
         this.updatePSignature = DeviceEventEmitter.addListener('updatePersonalSignature', function (params) {
             this.updatePersonalSignature(params);
         }.bind(this));
+
+        this.updateMedalList = DeviceEventEmitter.addListener('updateMedalList', function (params) {
+            this.updateMedalListView(params);
+        }.bind(this));
     }
 
     init() {
+
+
         NativeModules.QimRNBModule.getMyInfo(function (responce) {
             let userInfo = responce.MyInfo;
             this.setState({userInfo: userInfo});
             this.setState({userMood: userInfo["Mood"]});
+            this.setState({medalList: responce.medalList});
             // RNRestart.Restart();
         }.bind(this));
         NativeModules.QimRNBModule.getMyMood(function (responce) {
@@ -87,6 +95,14 @@ export default class UserCard extends Component {
             // let userInfo = this.state.userInfo;
             // userInfo["Mood"] = pSignature;
             this.setState({userMood: pSignature});
+        }
+    }
+
+    updateMedalListView(params) {
+        let userId = params["UserId"];
+        let medalList = params["medalList"];
+        if (userId == this.state.userInfo["UserId"]) {
+            this.setState({medalList: medalList});
         }
     }
 
@@ -154,6 +170,13 @@ export default class UserCard extends Component {
         NativeModules.QimRNBModule.openNativePage(params);
     }
 
+    //打开导航地址
+    openNavAddress() {
+        let params = {};
+        params["NativeName"] = "NavAddress";
+        NativeModules.QimRNBModule.openNativePage(params);
+    }
+
     //打开我的文件
     openMyFiles() {
         let params = {};
@@ -161,8 +184,18 @@ export default class UserCard extends Component {
         NativeModules.QimRNBModule.openNativePage(params);
     }
 
+    openMyMedal() {
+        let params = {};
+        if (this.state.userInfo["UserId"] === '' || this.state.userInfo["UserId"] === null) {
+            return
+        }
+        params["userId"] = this.state.userInfo["UserId"];
+        params["NativeName"] = "MyMedal";
+        NativeModules.QimRNBModule.openNativePage(params);
+    }
+
     //打开管理后台
-    openToCManager(){
+    openToCManager() {
         let params = {};
         params["NativeName"] = "OpenToCManager";
         NativeModules.QimRNBModule.openNativePage(params);
@@ -203,7 +236,7 @@ export default class UserCard extends Component {
                             this.openUserWorkWorld();
                         }}>
                             <Text style={styles.cellIcon}>{String.fromCharCode(0xe213)}</Text>
-                            <Text style={styles.cellTitle}>我的驼圈</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('My_Moment')}</Text>
                             <Text style={styles.cellValue}></Text>
                             {/*<Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>*/}
                             <Text style={[styles.rightArrow, {color: '#C4C4C5'}]}>{String.fromCharCode(0xe7e0)}</Text>
@@ -225,7 +258,7 @@ export default class UserCard extends Component {
                             this.openMyRedBag();
                         }}>
                             <Text style={[styles.cellIcon, {color: '#e88270'}]}>{String.fromCharCode(0xe741)}</Text>
-                            <Text style={styles.cellTitle}>我的红包</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('My_Redpack')}</Text>
                             <Text style={styles.cellValue}></Text>
                             {/*<Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>*/}
                             <Text style={[styles.rightArrow, {color: '#C4C4C5'}]}>{String.fromCharCode(0xe7e0)}</Text>
@@ -235,7 +268,7 @@ export default class UserCard extends Component {
                             this.openBalanceInquiry();
                         }}>
                             <Text style={[styles.cellIcon, {color: '#F4B56B'}]}>{String.fromCharCode(0xe743)}</Text>
-                            <Text style={styles.cellTitle}>我的余额</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('My_Balance')}</Text>
                             <Text style={styles.cellValue}></Text>
                             {/*<Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>*/}
                             <Text style={[styles.rightArrow, {color: '#C4C4C5'}]}>{String.fromCharCode(0xe7e0)}</Text>
@@ -248,6 +281,42 @@ export default class UserCard extends Component {
         }
     }
 
+    _renderMedalCell() {
+        if (AppConfig.isQtalk()) {
+            return (
+                <View>
+                    <View>
+                        <TouchableOpacity style={styles.cellContentView} onPress={() => {
+                            this.openMyMedal();
+                        }}>
+                            <Text style={[styles.cellIcon, {color: '#5ecfea'}]}>{String.fromCharCode(0xe8f4)}</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('My_Setting_Medal')}</Text>
+                            <View style={styles.cellValue}>
+                                {this._getMedalListView()}
+                            </View>
+                            {/*<Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>*/}
+                            <Text style={[styles.rightArrow, {color: '#C4C4C5'}]}>{String.fromCharCode(0xe7e0)}</Text>
+                        </TouchableOpacity>
+                    </View>
+                    {this.showLins()}
+                </View>
+            );
+        }
+    }
+
+    _getMedalListView() {
+        if (this.state.medalList == null) {
+            return null;
+        }
+        let list = [];
+        for (let i = 0; i < this.state.medalList.length; i++) {
+            list.push(
+                <Image source={{uri: this.state.medalList[i]}} style={styles.medalListItem}/>
+            )
+        }
+        return list;
+    }
+
     _renderFileCell() {
         return (
             <View>
@@ -256,7 +325,7 @@ export default class UserCard extends Component {
                         this.openMyFiles();
                     }}>
                         <Text style={[styles.cellIcon, {color: '#67B576'}]}>{String.fromCharCode(0xe742)}</Text>
-                        <Text style={styles.cellTitle}>我的文件</Text>
+                        <Text style={styles.cellTitle}>{I18n.t('My_Files')}</Text>
                         <Text style={styles.cellValue}></Text>
                         {/*<Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>*/}
                         <Text style={[styles.rightArrow, {color: '#C4C4C5'}]}>{String.fromCharCode(0xe7e0)}</Text>
@@ -276,7 +345,7 @@ export default class UserCard extends Component {
                             this.openAccountInfo();
                         }}>
                             <Text style={styles.cellIcon}>{String.fromCharCode(0xf0e2)}</Text>
-                            <Text style={styles.cellTitle}>账号信息</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('Account_Information')}</Text>
                             <Text style={styles.cellValue}></Text>
                             {/*<Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>*/}
                             <Text style={[styles.rightArrow, {color: '#C4C4C5'}]}>{String.fromCharCode(0xe7e0)}</Text>
@@ -290,16 +359,40 @@ export default class UserCard extends Component {
         }
     }
 
-    _showToCManager(){
-        if(AppConfig.isToCManager()){
-            return(
+    _renderNav() {
+        if(AppConfig.nativeAppType() == 0) {
+            return (
                 <View>
+                    <View>
+                        <TouchableOpacity style={styles.cellContentView} onPress={() => {
+                            this.openNavAddress();
+                        }}>
+                            <Text style={[styles.cellIcon, {color: '#2BD5FF'}]}>{String.fromCharCode(0xe90f)}</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('Nav_Address')}</Text>
+                            <Text style={styles.cellValue}></Text>
+                            {/*<Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>*/}
+                            <Text style={[styles.rightArrow, {color: '#C4C4C5'}]}>{String.fromCharCode(0xe7e0)}</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.line}>
+
+                    </View>
+                </View>
+            );
+        }
+    }
+
+    _showToCManager() {
+        if (AppConfig.isToCManager()) {
+            return (
+                <View>
+                    {this.showLins()}
                     <View>
                         <TouchableOpacity style={styles.cellContentView} onPress={() => {
                             this.openToCManager();
                         }}>
                             <Text style={[styles.cellIcon, {color: '#F4B56B'}]}>{String.fromCharCode(0xe894)}</Text>
-                            <Text style={styles.cellTitle}>管理后台</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('Manage_Backstage')}</Text>
                             <Text style={styles.cellValue}></Text>
                             <Text style={[styles.rightArrow, {color: '#C4C4C5'}]}>{String.fromCharCode(0xe7e0)}</Text>
                         </TouchableOpacity>
@@ -313,17 +406,17 @@ export default class UserCard extends Component {
 
     _showPersonalCard2(headerUri, nickName, mood, Department) {
 
-        let  req;
+        let req;
         let iosr = require('../images/back_shadow_ios.png');
         let andr = require('../images/back_shadow.png');
 
         let qr;
         let iosqr = require('../images/qrcode_ios.png');
-        let andqr = require('../images/qrcode.png');
-        if(Platform.OS == 'ios'){
+        let andqr = require('../images/new_qrcode.png');
+        if (Platform.OS == 'ios') {
             req = iosr
             qr = iosqr
-        }else{
+        } else {
             req = andr
             qr = andqr
         }
@@ -379,7 +472,10 @@ export default class UserCard extends Component {
                                 <Image source={{uri: headerUri}} style={styles.userHeaderImage2}/>
                             </View>
                         </TouchableOpacity>
-                        <View style={{backgroundColor:Platform.OS=='ios'?'#f5f5f5':'#eeeeee', height:Platform.OS=='ios'?1:0.7}}/>
+                        <View style={{
+                            backgroundColor: Platform.OS == 'ios' ? '#f5f5f5' : '#eeeeee',
+                            height: Platform.OS == 'ios' ? 1 : 0.7
+                        }}/>
                         <TouchableOpacity
                             style={{
                                 backgroundColor: '#00000000',
@@ -399,7 +495,7 @@ export default class UserCard extends Component {
                                     fontSize: ScreenUtils.setSpText(14),
                                     color: '#bfbfbf',
                                 }}
-                            >二维码名片</Text>
+                            >{I18n.t('My_QRCode')}</Text>
                             <View style={{flexDirection: 'row', alignItems: 'center', marginRight: ScreenUtils.scaleSize(6)}}>
                                 <Image source={qr} style={styles.qrCodeIcon}/>
                                 <Text style={[styles.rightArrow, {color: '#C4C4C5',marginRight:ScreenUtils.scaleSize(10)}]}>{String.fromCharCode(0xe7e0)}</Text>
@@ -443,14 +539,13 @@ export default class UserCard extends Component {
         // }
 
 
-
     }
 
     showLins() {
         return (<View style={{
-            height: Platform.OS=='ios'?1:0.7,
+            height: Platform.OS == 'ios' ? 1 : 0.7,
             marginLeft: ScreenUtils.scaleSize(25),
-            backgroundColor: Platform.OS=='ios'?"#f5f5f5":"#eeeeee",
+            backgroundColor: Platform.OS == 'ios' ? "#f5f5f5" : "#eeeeee",
         }}/>)
     }
 
@@ -465,7 +560,7 @@ export default class UserCard extends Component {
                     <Text style={styles.userMood} numberOfLines={1}>{mood}</Text>
                 </View>
                 <View style={styles.cellQRCode}>
-                    <Image source={require('../images/qrcode.png')} style={styles.qrCodeIcon}/>
+                    <Image source={require('../images/new_qrcode.png')} style={styles.qrCodeIcon}/>
                 </View>
                 <Text style={[styles.rightArrow, {color: '#C4C4C5'}]}>{String.fromCharCode(0xe7e0)}</Text>
 
@@ -476,9 +571,9 @@ export default class UserCard extends Component {
 
     render() {
         let nickName = "";
-        let mood = "这家伙很懒什么都没留"; //'/Users/admin/Documents/big_image.gif'
+        let mood = I18n.t('no_information');
         let headerUri = "../images/singleHeaderDefault.png";
-        let Department = "未知";
+        let Department = I18n.t('none');
         if (this.state.userInfo) {
             nickName = this.state.userInfo["Name"];
             headerUri = this.state.userInfo["HeaderUri"];
@@ -503,12 +598,13 @@ export default class UserCard extends Component {
 
                     {/*{this._showAccountInfo()}*/}
                     {this._renderFileCell()}
+                    {this._renderMedalCell()}
                     <View>
                         <TouchableOpacity style={styles.cellContentView} onPress={() => {
                             this.openAdviceAndFeedback();
                         }}>
                             <Text style={[styles.cellIcon, {color: '#839DDB'}]}>{String.fromCharCode(0xe744)}</Text>
-                            <Text style={styles.cellTitle}>意见反馈</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('My_FeedBack')}</Text>
                             <Text style={styles.cellValue}></Text>
                             <Text style={[styles.rightArrow, {color: '#C4C4C5'}]}>{String.fromCharCode(0xe7e0)}</Text>
                             {/*<Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>*/}
@@ -524,6 +620,8 @@ export default class UserCard extends Component {
                         {/*</TouchableOpacity>*/}
                     </View>
                     {this.showLins()}
+                    {this._renderNav()}
+
                     {this._showToCManager()}
                 </ScrollView>
             </View>
@@ -533,6 +631,7 @@ export default class UserCard extends Component {
 var styles = StyleSheet.create({
     wrapper: {
         flex: 1,
+        backgroundColor:'#f5f5f5'
     },
     // tabBar: {
     //     height: ScreenUtils.scaleSize(64),
@@ -578,8 +677,9 @@ var styles = StyleSheet.create({
     },
     cellValue: {
         flex: 1,
-
+        flexDirection: 'row-reverse',
         textAlign: "right",
+
         color: "#999999",
     },
     rightArrow: {
@@ -597,7 +697,7 @@ var styles = StyleSheet.create({
     },
     backHeaderup: {
         //enum('cover', 'contain', 'stretch', 'repeat', 'center')
-        backgroundColor: Platform.OS=='ios'?'#fafafa':'#f6f6f6',
+        backgroundColor: Platform.OS == 'ios' ? '#fafafa' : '#f6f6f6',
         height: ScreenUtils.scaleSize(197),
         width: width,
         resizeMode: 'stretch',
@@ -632,7 +732,7 @@ var styles = StyleSheet.create({
         backgroundColor: "#FFF",
         flexDirection: "row",
         borderWidth: 1,
-        borderColor: "#EAEAEA",
+        borderColor: "#eaeaea",
         alignItems: "center",
     },
     userHeaderImage2: {
@@ -677,4 +777,9 @@ var styles = StyleSheet.create({
         height: ScreenUtils.scaleSize(17),
     },
     walletInfo: {},
+    medalListItem: {
+        marginRight: ScreenUtils.scaleSize(8),
+        width: ScreenUtils.scaleSize(28),
+        height: ScreenUtils.scaleSize(28),
+    },
 });

@@ -16,26 +16,37 @@ import {
 } from 'react-native';
 import NavCBtn from "../common/NavCBtn";
 import AppConfig from "../common/AppConfig";
+import ScreenUtils from "../common/ScreenUtils";
+import I18n from "./../i18n/i18N";
 
 export default class UserCard extends Component {
 
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "详细资料";
+        let headerTitle = I18n.t('singlechat_Personal_Information');
         let leftBtn = (<NavCBtn btnType={NavCBtn.EXIT_APP} moduleName={"UserCard"}/>);
         let rightBtn = (<NavCBtn btnType={NavCBtn.NAV_BUTTON} onPress={() => {
             if (navigation.state.params.onSavePress) {
                 navigation.state.params.onSavePress();
             }
-        }}>设置</NavCBtn>);
+        }}>{I18n.t('common_setupButton')}</NavCBtn>);
         if (navigation.state.params.innerVC) {
             let props = {navigation: navigation, btnType: NavCBtn.BACK_BUTTON};
             leftBtn = (<NavCBtn {...props}/>);
         }
         return {
             headerTitle: headerTitle,
+
             headerTitleStyle: {
-                fontSize: 18
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
+
             headerLeft: leftBtn,
             headerRight: rightBtn,
         };
@@ -51,6 +62,7 @@ export default class UserCard extends Component {
             userInfo: {},
             userMood: null,
             userLead: null,
+            medalList: [],
             isFriend: false,
             userMedal: null,
             showLeader: showOrganizational === 1 ? false : true,
@@ -87,10 +99,35 @@ export default class UserCard extends Component {
             this.refreshUserMedal = DeviceEventEmitter.addListener('updateMedal', function (params) {
                 this.updateMedal(params);
             }.bind(this));
+            // this.updateMedalList = DeviceEventEmitter.addListener('updateMedalList', function (params) {
+            //     this.updateMedalListView(params);
+            // }.bind(this));
 
         } catch (e) {
 
         }
+    }
+
+
+    updateMedalListView(params) {
+        let userId = params.UserId;
+        if (this.state.userId == userId) {
+            let medalList = params.medalList;
+            this.setState({medalList: params.medalList});
+        }
+    }
+
+    _getMedalListView() {
+        if (this.state.medalList == null) {
+            return null;
+        }
+        let list = [];
+        for (let i = 0; i < this.state.medalList.length; i++) {
+            list.push(
+                <Image source={{uri: this.state.medalList[i]}} style={styles.medalListItem}/>
+            )
+        }
+        return list;
     }
 
     setting() {
@@ -107,7 +144,7 @@ export default class UserCard extends Component {
         if (this.state.userId == userId) {
 
             this.setState({userInfo: info});
-            this.setState({userMood:info});
+            this.setState({userMood: info});
         }
         // this.props.navigation.setParams({
         //     title: info["Name"],
@@ -143,6 +180,7 @@ export default class UserCard extends Component {
             this.props.navigation.setParams({
                 title: responce.UserInfo["Name"],
             });
+            this.setState({medalList: responce.medalList});
         }.bind(this));
         // NativeModules.QimRNBModule.getUserInfoByUserCard(this.state.userId,
         //     function (responce) {
@@ -153,7 +191,7 @@ export default class UserCard extends Component {
         //     }.bind(this));
 
         NativeModules.QimRNBModule.getUserMood(this.state.userId, function (responce) {
-            if(responce){
+            if (responce) {
                 this.setState({userMood: responce.UserInfo});
             }
 
@@ -193,6 +231,10 @@ export default class UserCard extends Component {
         if (this.refreshLeader) {
             this.refreshLeader.remove();
         }
+
+        // if( this.updateMedalList){
+        //     this.updateMedalList.remove();
+        // }
     }
 
     updateRemark(params) {
@@ -215,6 +257,16 @@ export default class UserCard extends Component {
         param["UserId"] = userId;
         NativeModules.QimRNBModule.browseBigHeader(param, function (responce) {
         }.bind(this));
+    }
+
+    openMyMedal() {
+        let params = {};
+        if (this.state.userInfo["UserId"] === '' || this.state.userInfo["UserId"] === null) {
+            return
+        }
+        params["userId"] = this.state.userInfo["UserId"];
+        params["NativeName"] = "MyMedal";
+        NativeModules.QimRNBModule.openNativePage(params);
     }
 
     openRemarkSetting() {
@@ -314,11 +366,11 @@ export default class UserCard extends Component {
 
 
         Alert.alert(
-            '提示',
-            '您是否确定要删除好友？',
+            I18n.t('Reminder'),
+            I18n.t('delete_friend_confirm'),
             [
-                {text: '取消', onPress: this._cancel},
-                {text: '确定', onPress: this._deleteUserFriend.bind(this)},
+                {text: I18n.t('Cancel'), onPress: this._cancel},
+                {text: I18n.t('Ok'), onPress: this._deleteUserFriend.bind(this)},
             ],
             {cancelable: false}
         )
@@ -383,9 +435,9 @@ export default class UserCard extends Component {
                             this.sendMail();
 
                         }}>
-                            <Text style={styles.cellTitle}>发送邮件</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('singlechat_Send_Email')}</Text>
                             <Text style={styles.cellValue}></Text>
-                            <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                            <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                         </TouchableOpacity>
                     </View>);
             } else {
@@ -396,9 +448,9 @@ export default class UserCard extends Component {
                             this.sendMail();
 
                         }}>
-                            <Text style={styles.cellTitle}>发送邮件</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('singlechat_Send_Email')}</Text>
                             <Text style={styles.cellValue}></Text>
-                            <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                            <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                         </TouchableOpacity>
                     </View>
                 );
@@ -423,13 +475,14 @@ export default class UserCard extends Component {
                         }}>
 
 
-                            <Text style={styles.cellTitle}>驼圈</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('Moment')}</Text>
                             <Text style={styles.cellValue}></Text>
-                            <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                            <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
 
 
                         </TouchableOpacity>
                     </View>
+
                 </View>
             );
         }
@@ -449,46 +502,49 @@ export default class UserCard extends Component {
             return (
                 <View style={styles.workInfo}>
                     <View style={styles.cellContentView}>
-                        <Text style={styles.cellTitle}>直接上属</Text>
+                        <Text style={styles.cellTitle}>{I18n.t('singlechat_Direct_Supervisor')}</Text>
                         <Text style={styles.cellValue} onPress={() => {
                             this.openUserCard();
                         }}>{leader}</Text>
                     </View>
+                    {this._renderLineView()}
                     <View style={styles.cellContentView}>
-                        <Text style={styles.cellTitle}>工号</Text>
+                        <Text style={styles.cellTitle}>{I18n.t('singlechat_Employee_Number')}</Text>
                         <Text style={styles.cellValue}>{empno}</Text>
                     </View>
+                    {this._renderLineView()}
                     <View style={styles.cellContentView}>
-                        <Text style={styles.cellTitle}>手机号</Text>
+                        <Text style={styles.cellTitle}>{I18n.t('singlechat_Mobile_Number')}</Text>
                         <Text style={styles.phoneValue} onPress={() => {
                             console.log("点击查看手机号");
                             this.showUserPhoneNumber();
-                        }}>点击查看</Text>
+                        }}>{I18n.t('singlechat_click_view')}</Text>
                     </View>
                 </View>
 
             );
-        }else if(!AppConfig.notNeedShowLeaderInfo()){
+        } else if (!AppConfig.notNeedShowLeaderInfo()) {
             return (
                 <View style={styles.workInfo}>
                     <View style={styles.cellContentView}>
-                        <Text style={styles.cellTitle}>直接上属</Text>
+                        <Text style={styles.cellTitle}>{I18n.t('singlechat_Direct_Supervisor')}</Text>
                         <Text style={styles.cellValue} onPress={() => {
                             this.openUserCard();
                         }}>{leader}</Text>
                     </View>
+                    {this._renderLineView()}
                     <View style={styles.cellContentView}>
-                        <Text style={styles.cellTitle}>工号</Text>
+                        <Text style={styles.cellTitle}>{I18n.t('singlechat_Employee_Number')}</Text>
                         <Text style={styles.cellValue}>{empno}</Text>
                     </View>
                 </View>
 
             );
-        }else if(!AppConfig.notNeedShowMobileInfo()){
+        } else if (!AppConfig.notNeedShowMobileInfo()) {
             return (
                 <View style={styles.workInfo}>
                     <View style={styles.cellContentView}>
-                        <Text style={styles.cellTitle}>手机号</Text>
+                        <Text style={styles.cellTitle}>{I18n.t('singlechat_Mobile_Number')}</Text>
                         <Text style={styles.phoneValue} onPress={() => {
                             console.log("点击查看手机号");
                             this.showUserPhoneNumber();
@@ -512,6 +568,14 @@ export default class UserCard extends Component {
         );
     }
 
+    _renderLineView() {
+        return (
+            <View style={styles.lineBaseView}>
+                <View style={styles.lineView}></View>
+            </View>
+        )
+    }
+
     _showUserMedal() {
         if (this.state.userMedal == null || this.state.userMedal.length <= 0) {
             return;
@@ -520,7 +584,8 @@ export default class UserCard extends Component {
                 <View>
                     <TouchableOpacity style={styles.remarks} onPress={this.openUserMedal.bind(this)}>
                         <View style={styles.cellContentView}>
-                            <Text style={styles.userMedalCellTitle}>勋章</Text>
+                            <Text style={styles.userMedalCellTitle}>{I18n.t('Medals')}</Text>
+
 
                             <FlatList
                                 style={styles.userMealIconContentView}
@@ -530,7 +595,7 @@ export default class UserCard extends Component {
                                 horizontal={true}
                                 showsHorizontalScrollIndicator={false}
                             />
-                            <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                            <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                         </View>
                     </TouchableOpacity>
                     <View style={styles.line}>
@@ -547,12 +612,13 @@ export default class UserCard extends Component {
                 <View>
                     <View style={styles.baseInfo}>
                         <View style={styles.cellContentView}>
-                            <Text style={styles.cellTitle}>用户ID</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('singlechat_UserId')}</Text>
                             <Text
                                 style={styles.cellValue}>{this.state.userInfo ? this.state.userInfo["UserId"] : userId}</Text>
                         </View>
+                        {this._renderLineView()}
                         <View style={styles.cellContentView}>
-                            <Text style={styles.cellTitle}>部门</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('singlechat_Department')}</Text>
                             <Text
                                 style={styles.cellValue}>{this.state.userInfo ? this.state.userInfo["Department"] : department}</Text>
                         </View>
@@ -569,53 +635,91 @@ export default class UserCard extends Component {
     _showBottomTabBar() {
         let isFriendBOOL = this.state.isFriend;
         // console.log("isFriendBOOL = " + this.state.isFriend);
-        let friendText = isFriendBOOL == true ? "删除好友" : "添加好友";
+        let friendText = isFriendBOOL == true ? I18n.t('singlechat_Delete_Friend') : I18n.t('singlechat_Add_Friend');
         let friendStyle = isFriendBOOL == true ? styles.deleteFriendBtn : styles.addFriendBtn;
         let friendTextColor = isFriendBOOL == true ? "#FFF" : "#333333";
-       if (AppConfig.notNeedShowFriendBtn()) {
-           return(
-               <View>
-                   <View style={styles.tabBar}>
-                       <View style={styles.wholeTab}>
+        if (AppConfig.notNeedShowFriendBtn()) {
+            return (
+                <View>
+                    <View style={styles.tabBar}>
+                        <View style={styles.wholeTab}>
 
-                           <TouchableOpacity style={styles.sendMessageBtn} onPress={() => {
-                               this.openUserChat();
-                           }}>
-                               <Text style={{color: "#FFF", fontSize: 16}}>
-                                   发送消息
-                               </Text>
-                           </TouchableOpacity>
-                       </View>
-                   </View>
-               </View>
-           )
-       } else {
-           return(
-               <View>
-               <View style={styles.tabBar}>
-                   <View style={styles.leftTab}>
+                            <TouchableOpacity style={styles.sendMessageBtn} onPress={() => {
+                                this.openUserChat();
+                            }}>
+                                <Text style={{color: "#FFF", fontSize: 16}}>
+                                    {I18n.t('singlechat_Messages')}
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            )
+        } else {
+            return (
+                <View>
+                    <View style={styles.tabBar}>
+                        <View style={styles.leftTab}>
 
-                       <TouchableOpacity style={friendStyle} onPress={() => {
-                           isFriendBOOL == true ? this.rndeleteUserFriend() : this.addUserFriend();
-                       }}>
-                           <Text style={{color: friendTextColor, fontSize: 16}}>
-                               {friendText}
-                           </Text>
-                       </TouchableOpacity>
-                   </View>
-                   <View style={styles.rightTab}>
-                       <TouchableOpacity style={styles.sendMessageBtn} onPress={() => {
-                           this.openUserChat();
-                       }}>
-                           <Text style={{color: "#FFF", fontSize: 16}}>
-                               发送消息
-                           </Text>
-                       </TouchableOpacity>
-                   </View>
-               </View>
-               </View>
-           )
-       }
+                            <TouchableOpacity style={friendStyle} onPress={() => {
+                                isFriendBOOL == true ? this.rndeleteUserFriend() : this.addUserFriend();
+                            }}>
+                                <Text style={{color: friendTextColor, fontSize: 16}}>
+                                    {friendText}
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.rightTab}>
+                            <TouchableOpacity style={styles.sendMessageBtn} onPress={() => {
+                                this.openUserChat();
+                            }}>
+                                <Text style={{color: "#FFF", fontSize: 16}}>
+                                    {I18n.t('singlechat_Messages')}
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            )
+        }
+    }
+
+    _renderUserMedalView() {
+        if (AppConfig.isQtalk()) {
+            return (<TouchableOpacity style={[styles.remarks,]}
+                                      onPress={this.openMyMedal.bind(this)}>
+                    <View style={styles.cellContentView}>
+                        <Text style={styles.cellTitle}>{I18n.t('Medals')}</Text>
+                        <View style={styles.cellValueRow}>
+                            {this._getMedalListView()}
+                        </View>
+                        <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
+                    </View>
+                </TouchableOpacity>
+            );
+        }
+    }
+
+    renderSex() {
+        if (Platform.OS == "ios") {
+            let sex = 0;
+            if (this.state.userInfo) {
+                sex = this.state.userInfo["Sex"];
+            }
+            if (sex == 1) {
+                return (
+                    <Text style={[styles.sexIconView, {color: '#5DC8FF'}]}>  {String.fromCharCode(0xe928)}</Text>
+                )
+            } else if (sex == 2) {
+                return (
+                    <Text style={[styles.sexIconView, {color: '#ff322a'}]}>  {String.fromCharCode(0xe928)}</Text>
+                )
+            } else {
+                return (
+                    <Text style={[styles.sexIconView]}></Text>
+                )
+            }
+        }
     }
 
     render() {
@@ -650,37 +754,43 @@ export default class UserCard extends Component {
                                    style={styles.userHeaderImage}/>
                         </TouchableOpacity>
                         <View style={styles.userNameInfo}>
-                            <Text
-                                style={styles.userName}>{this.state.userInfo ? this.state.userInfo["Name"] : nickName}</Text>
-                            <Text
-                                style={styles.userMood}>{this.state.userMood ? this.state.userMood["Mood"] : mood}</Text>
+                            <Text style={styles.userName}>
+                                {this.state.userInfo ? this.state.userInfo["Name"] : nickName}
+                                {this.renderSex()}
+                            </Text>
+                            <Text numberOfLines={2}
+                                  style={styles.userMood}>{this.state.userMood ? this.state.userMood["Mood"] : mood}</Text>
                         </View>
                     </View>
                     <View style={styles.line}/>
                     <TouchableOpacity style={styles.remarks} onPress={this.openRemarkSetting.bind(this)}>
                         <View style={styles.cellContentView}>
-                            <Text style={styles.cellTitle}>备注</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('singlechat_alias')}</Text>
                             <Text
                                 style={styles.cellValue}>{this.state.userInfo ? this.state.userInfo["Remarks"] : remark}</Text>
-                            <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                            <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                         </View>
                     </TouchableOpacity>
+                    {this._renderLineView()}
+                    {this._renderUserMedalView()}
                     <View style={styles.line}>
 
                     </View>
 
-                    {this._showUserMedal()}
+                    {/*{this._showUserMedal()}*/}
 
                     {this._showDepartment(userId, department)}
                     {this._showLeader()}
 
                     {this._isShowWorkWorld()}
-                    <View style={styles.line}>
-                    </View>
+                    {this._renderLineView()}
+                    {/*<View style={styles.line}>*/}
+                    {/*</View>*/}
                     {this._showCommentAndEmail()}
 
                 </ScrollView>
                 {this._showBottomTabBar()}
+
             </View>
         );
     }
@@ -688,11 +798,13 @@ export default class UserCard extends Component {
 var styles = StyleSheet.create({
     wrapper: {
         flex: 1,
+        backgroundColor: '#f5f5f5',
     },
     tabBar: {
-        height: 64,
+        height:60,
         flexDirection: "row",
-        backgroundColor: "#EAEAEA",
+        alignItems:'center',
+        backgroundColor: "#f5f5f5",
     },
     leftTab: {
         flex: 1,
@@ -702,13 +814,12 @@ var styles = StyleSheet.create({
     },
     wholeTab: {
         flex: 1,
+        height:60,
     },
     addFriendBtn: {
-        flex: 1,
         marginLeft: 15,
         marginRight: 7.5,
-        marginTop: 10,
-        marginBottom: 10,
+        height: 45,
         backgroundColor: "#FFF",
         borderWidth: 1,
 
@@ -718,12 +829,10 @@ var styles = StyleSheet.create({
         justifyContent: "center",
     },
     deleteFriendBtn: {
-        flex: 1,
         marginLeft: 15,
         marginRight: 7.5,
-        marginTop: 10,
-        marginBottom: 10,
-        backgroundColor: "#fe3512",
+        height: 45,
+        backgroundColor: "#DE5E53",
         borderWidth: 1,
         borderColor: "#D1D1D1",
         borderRadius: 5,
@@ -731,21 +840,19 @@ var styles = StyleSheet.create({
         justifyContent: "center",
     },
     sendMessageBtn: {
-        flex: 1,
         marginLeft: 7.5,
         marginRight: 15,
-        marginTop: 10,
-        marginBottom: 10,
-        backgroundColor: "#41CF94",
-        borderWidth: 1,
-        borderColor: "#D1D1D1",
-        borderRadius: 5,
+        height: 45,
+        backgroundColor: "#00CABE",
+        // borderWidth: 1,
+        // borderColor: "#D1D1D1",
+        borderRadius: 4,
         alignItems: "center",
         justifyContent: "center",
     },
     scrollView: {
         flex: 1,
-        backgroundColor: "#EAEAEA",
+        backgroundColor: "#f5f5f5",
     },
     contentContainer: {
         // paddingVertical: 20
@@ -756,21 +863,35 @@ var styles = StyleSheet.create({
     cellContentView: {
         backgroundColor: "#FFF",
         flexDirection: "row",
-        height: 44,
-        borderBottomWidth: 1,
-        borderColor: "#EAEAEA",
+        minHeight: 60,
+        // borderBottomWidth: 1,
+        // borderColor: "#EAEAEA",
         paddingLeft: 10,
         paddingRight: 10,
         alignItems: "center",
         flex: 1,
     },
     cellTitle: {
-        width: 150,
-        color: "#333333",
-        fontSize: 12,
+        marginLeft: 6,
+        width: 80,
+        color: "#212121",
+        fontSize: 16,
     },
     cellValue: {
+        marginTop: 23,
+        marginBottom: 23,
         flex: 1,
+        textAlign: "right",
+        color: "#999999",
+        fontSize: 14,
+        marginRight: 6,
+    },
+    cellValueRow: {
+        paddingTop:9,
+        paddingBottom:15,
+        flexWrap: 'wrap',
+        flex: 1,
+        flexDirection: 'row-reverse',
         textAlign: "right",
         color: "#999999",
     },
@@ -793,29 +914,30 @@ var styles = StyleSheet.create({
     phoneValue: {
         flex: 1,
         textAlign: "right",
-        color: "#5CC57F",
+        color: "#00CABE",
     },
     rightArrow: {
         width: 20,
         height: 20,
-        marginRight: -7,
     },
     userHeader: {
+        height: 102,
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'center',
         backgroundColor: "#FFF",
         flexDirection: "row",
         borderWidth: 1,
         borderColor: "#EAEAEA",
     },
     userHeaderImage: {
-        width: 58,
-        height: 58,
-        borderRadius: 30,
+        width: 67,
+        height: 67,
+        borderRadius: 34,
         borderColor: "#D1D1D1",
         borderWidth: 1,
         alignContent: 'center',
-        marginLeft: 11,
+        marginLeft: 12,
         marginTop: 8,
         marginBottom: 8,
 
@@ -834,29 +956,47 @@ var styles = StyleSheet.create({
         color: "#333333",
     },
     userMood: {
+
         marginTop: 5,
-        fontSize: 14,
+        fontSize: 13,
         color: "#999999",
     },
     remarks: {
-        height: 50
+        minHeight: 60,
     },
-    baseInfo: {
-        height: 100
-    },
+    baseInfo: {},
     userDepartment: {},
-    workInfo: {
-        height: 150
-    },
+    workInfo: {},
     empno: {},
     leadership: {},
     mobileNo: {},
     otherInfo: {
-        height: 50,
+        height: 60,
     },
     androidOtherInfo: {
-        height: 50,
+        height: 60,
     },
     comment: {},
-    sendMail: {}
+    sendMail: {},
+    medalListItem: {
+        marginTop: 6,
+        marginRight: ScreenUtils.scaleSize(8),
+        width: ScreenUtils.scaleSize(28),
+        height: ScreenUtils.scaleSize(28),
+    },
+    lineBaseView: {
+        backgroundColor: '#FFFFFF',
+    },
+    lineView: {
+        marginLeft: 16,
+        marginRight: 16,
+        height: 1,
+        backgroundColor: '#EEEEEE',
+    },
+    sexIconView: {
+        fontFamily: "QTalk-QChat",
+        fontSize: ScreenUtils.setSpText(14),
+        color: "#fc3da4",
+        marginRight: ScreenUtils.scaleSize(5),
+    }
 });

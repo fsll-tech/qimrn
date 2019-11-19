@@ -16,6 +16,7 @@ import UserSetting from './UserSetting'
 
 import {StackNavigator,NavigationActions} from 'react-navigation';
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
+import CommonNav from "../common/CommonNav";
 
 UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
@@ -58,6 +59,7 @@ export default class App extends Component {
             headerMode:'screen',
             initialRouteName: route.name,
             initialRouteParams: this.props,
+            navigationOptions: CommonNav.commonNavigationOptions(),
             transitionConfig: () => ({screenInterpolator: CardStackStyleInterpolator.forHorizontal})
         });
 

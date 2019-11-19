@@ -17,12 +17,13 @@ import NavCBtn from "../common/NavCBtn";
 import CustomActionSheet from '../common/CustomActionSheet'
 import LoadingView from "../common/LoadingView";
 import AppConfig from "../common/AppConfig";
+import I18n from "./../i18n/i18N";
 
 var HEADERBUTTONS = [
-    '查看头像',
-    '相册中选择',
-    '拍照',
-    '取消',
+    I18n.t('View_Full_Image'),
+    I18n.t('Choose_from_album'),
+    I18n.t('Take_Photo'),
+    I18n.t('Cancel'),
 ];
 
 var CANCEL_INDEX = 3;
@@ -30,14 +31,25 @@ var CANCEL_INDEX = 3;
 export default class UserCard extends Component {
 
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "个人资料";
+        let headerTitle = I18n.t('My_Profile');
         let leftBtn = (<NavCBtn btnType={NavCBtn.EXIT_APP} moduleName={"MySetting"}/>);
         return {
             headerTitle: headerTitle,
-            headerTitleStyle: {
-                fontSize: 18
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
             },
+            headerTitleStyle: {
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
+            },
+            // headerTitleStyle: {
+            //     fontSize: 18
+            // },
             headerLeft: leftBtn,
+            headerRight:<View/>,
         };
     };
 
@@ -80,7 +92,7 @@ export default class UserCard extends Component {
 
     //开始显示
     imageUpdateStart(params) {
-        LoadingView.show('请稍等');
+        LoadingView.show(I18n.t('wait'));
     }
 
     //结束显示
@@ -91,7 +103,7 @@ export default class UserCard extends Component {
             this.setState({userInfo: this.state.userInfo});
 
         }else{
-            Alert.alert('提示','更新失败');
+            Alert.alert(I18n.t('Reminder') ,I18n.t('updateFaild'));
         }
         LoadingView.hidden();
     }
@@ -119,7 +131,7 @@ export default class UserCard extends Component {
             return;
         }
         this.props.navigation.navigate('PersonalSignature', {
-            'backTitle': "个人资料",
+            'backTitle': I18n.t('My_Profile'),
             'userId': this.state.userInfo["UserId"],
             'personalSignature': this.state.userMood,
         });
@@ -130,7 +142,7 @@ export default class UserCard extends Component {
             return;
         }
         this.props.navigation.navigate('UserQRCode', {
-            'backTitle': "个人资料",
+            'backTitle': I18n.t('My_Profile'),
             'userId': this.state.userInfo["UserId"],
             'userName': this.state.userInfo["Name"],
             'userHeader': this.state.userInfo["HeaderUri"],
@@ -180,7 +192,7 @@ export default class UserCard extends Component {
 
         ActionSheetIOS.showActionSheetWithOptions({
                 options: HEADERBUTTONS,
-                message: "选择",
+                message: I18n.t('select'),
                 cancelButtonIndex: CANCEL_INDEX,
             },
             (buttonIndex) => {
@@ -198,12 +210,12 @@ export default class UserCard extends Component {
 
     onPressHeaderButton() {
 
-        let actions = ['取消', '查看大图', '相册上传头像', '拍照上传头像'];
+        let actions = [I18n.t('Cancel'), I18n.t('View_Full_Image'), I18n.t('Choose_from_album'), I18n.t('Take_Photo')];
         if (AppConfig.isQtalk() != true) {
-            actions = ['取消', '查看大图'];
+            actions = [I18n.t('Cancel'), I18n.t('View_Full_Image')];
         }
 
-        this.CustomActionSheet.onShowCustomActionSheet('请选择', actions, 0, -1, (index, str) => {
+        this.CustomActionSheet.onShowCustomActionSheet(I18n.t('select'), actions, 0, -1, (index, str) => {
             // console.log(index + str);
             switch (index) {
                 case 1:
@@ -239,9 +251,9 @@ export default class UserCard extends Component {
                     <TouchableOpacity style={styles.cellContentView} onPress={() => {
                         this.openPersonalSignature();
                     }}>
-                        <Text style={styles.cellTitle}>个性签名</Text>
-                        <Text style={styles.cellValue}>{mood}</Text>
-                        <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                        <Text style={styles.cellTitle}>{I18n.t('My_Profile_QianMing')}</Text>
+                        <Text numberOfLines={1} style={styles.cellValue}>{mood}</Text>
+                        <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                     </TouchableOpacity>
                 </View>
             )
@@ -265,10 +277,17 @@ export default class UserCard extends Component {
 
     }
 
+    _renderLineView() {
+        return (
+            <View style={styles.lineBaseView}>
+                <View style={styles.lineView}></View>
+            </View>
+        )
+    }
 
     render() {
         let nickName = "";
-        let mood = "这家伙很懒什么都没留"; //'/Users/admin/Documents/big_image.gif'
+        let mood = I18n.t('no_information');
         let headerUri = "../images/singleHeaderDefault.png";
         let userId = "";
         let department = "";
@@ -289,23 +308,27 @@ export default class UserCard extends Component {
                     <TouchableOpacity style={styles.userHeader} onPress={() => {
                         this.onPressHeaderButton();
                     }}>
-                        <Text style={styles.cellTitle}>头像</Text>
+                        <Text style={styles.cellTitle}>{I18n.t('My_Profile_Photo')}</Text>
                         <View style={styles.cellQRCode}>
                             <Image source={{uri: headerUri}} style={styles.userHeaderImage}/>
                         </View>
-                        <Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>
+                        <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
                     </TouchableOpacity>
+                    <View style={styles.line}>
+                    </View>
                     <View>
                         <View style={styles.cellContentView}>
-                            <Text style={styles.cellTitle}>名字</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('My_Profile_Name')}</Text>
                             <Text style={styles.cellValue}>{nickName}</Text>
                         </View>
+                        {this._renderLineView()}
                         <View style={styles.cellContentView}>
-                            <Text style={styles.cellTitle}>用户ID</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('My_Profile_UserId')}</Text>
                             <Text style={styles.cellValue}>{userId}</Text>
                         </View>
+                        {this._renderLineView()}
                         <View style={styles.cellContentView}>
-                            <Text style={styles.cellTitle}>部门</Text>
+                            <Text style={styles.cellTitle}>{I18n.t('My_Profile_DP')}</Text>
                             <Text style={styles.cellValue}>{department}</Text>
                         </View>
                         {this.shoMyQrCode()}
@@ -322,11 +345,12 @@ export default class UserCard extends Component {
 var styles = StyleSheet.create({
     wrapper: {
         flex: 1,
+        backgroundColor:'#f5f5f5'
     },
     tabBar: {
         height: 64,
         flexDirection: "row",
-        backgroundColor: "#EAEAEA",
+        backgroundColor: "#f5f5f5",
     },
     leftTab: {
         flex: 1,
@@ -336,20 +360,21 @@ var styles = StyleSheet.create({
     },
     scrollView: {
         flex: 1,
-        backgroundColor: "#EAEAEA",
+        backgroundColor: "#f5f5f5",
     },
     contentContainer: {
         // paddingVertical: 20
     },
     line: {
-        height: 10,
+        height: 8,
+        backgroundColor: '#F5F5F5',
     },
     cellContentView: {
         backgroundColor: "#FFF",
         flexDirection: "row",
-        height: 44,
-        borderBottomWidth: 1,
-        borderColor: "#EAEAEA",
+        height: 60,
+        // borderBottomWidth: 1,
+        // borderColor: "#EAEAEA",
         paddingLeft: 15,
         alignItems: "center",
         flex: 1,
@@ -366,13 +391,14 @@ var styles = StyleSheet.create({
     cellTitle: {
         width: 100,
         color: "#212121",
-        fontSize: 14,
+        fontSize: 16,
     },
     cellValue: {
         flex: 1,
         textAlign: "right",
-        color: "#999999",
+        color: "#666666",
         marginRight: 10,
+        fontSize: 14,
     },
     rightArrow: {
         width: 20,
@@ -380,18 +406,18 @@ var styles = StyleSheet.create({
         marginRight: 5,
     },
     userHeader: {
-        height: 70,
+        height: 100,
         backgroundColor: "#FFF",
         flexDirection: "row",
         borderWidth: 1,
-        borderColor: "#EAEAEA",
+        borderColor: "#eaeaea",
         alignItems: "center",
         paddingLeft: 15,
     },
     userHeaderImage: {
-        width: 48,
-        height: 48,
-        borderRadius: 24,
+        width: 60,
+        height: 60,
+        borderRadius: 30,
         borderColor: "#D1D1D1",
         borderWidth: 1,
         marginRight: 5,
@@ -421,4 +447,13 @@ var styles = StyleSheet.create({
         marginRight: 5,
     },
     walletInfo: {},
+    lineBaseView: {
+        backgroundColor: '#FFFFFF',
+    },
+    lineView: {
+        marginLeft: 16,
+        marginRight: 16,
+        height: 1,
+        backgroundColor: '#EEEEEE',
+    },
 });

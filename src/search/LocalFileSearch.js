@@ -31,6 +31,7 @@ import {
     QSearch,
 } from 'react-native-qunar-component-library-public';
 import NavCBtn from './../common/NavCBtn';
+import I18n from "./../i18n/i18N";
 
 const sections = [
     {key: "A", data: [{title: "阿童木"}, {title: "阿玛尼"}, {title: "爱多多"}]},
@@ -46,7 +47,7 @@ export class LocalFileSearch extends Component {
 
 
     static navigationOptions = ({navigation}) => {
-        let headerTitle = "文件搜索";
+        let headerTitle = I18n.t('local_file_search');
         let props = {navigation: navigation, btnType: NavCBtn.BACK_BUTTON};
         let leftBtn = (<NavCBtn {...props}/>);
         // if (navigation.state.params.innerVC) {
@@ -54,11 +55,19 @@ export class LocalFileSearch extends Component {
         //     leftBtn = (<NavCBtn {...props}/>);
         // }
         return {
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#eaeaea',
+
+            },
             headerTitle: headerTitle,
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
+            headerRight:<View/>,
         };
     };
 

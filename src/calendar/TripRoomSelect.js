@@ -94,9 +94,11 @@ export class TripRoomSelect extends Component {
         return {
             headerTitle: headerTitle,
             headerTitleStyle: {
-                fontSize: 14
+                fontSize: 18,
+                flex: 1, textAlign: 'center'
             },
             headerLeft: leftBtn,
+            headerRight:<View/>,
             // headerRight: rightBtn,
         };
     };
@@ -470,7 +472,7 @@ export class TripRoomSelect extends Component {
                             <Text
                                 style={[TripRoomSelectStyles.normalTextLeft, TripRoomSelectStyles.marginLeft26]}>{this.state.tripAddressName}</Text>
 
-                            <Image source={require('../images/arrow_right.png')}
+                            <Image source={require('../images/new_arrow_right.png')}
                                    style={[{height: 24, width: 24,}, TripRoomSelectStyles.meright16]}/>
 
                         </View>

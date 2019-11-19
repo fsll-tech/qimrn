@@ -6,10 +6,11 @@ import {
     UIManager,
     NativeModules, NativeAppEventEmitter,
 } from 'react-native';
-import WebView from './qim_webview';
+// import WebView from './qim_webview';
 import checkVersion from "./../conf/AutoUpdateRNBundle";
 import {StackNavigator,NavigationActions} from 'react-navigation';
 import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
+import CommonNav from "../common/CommonNav";
 UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
 export default class App extends Component {
@@ -23,14 +24,15 @@ export default class App extends Component {
         }
         this.AppStack = StackNavigator({
             // 浏览器
-            'WebView': {
-                screen: WebView,
-            },
+            // 'WebView': {
+            //     screen: WebView,
+            // },
         }, {
             mode:'card',
             headerMode:'screen',
             initialRouteName: route.name,
             initialRouteParams: initData,
+            navigationOptions: CommonNav.commonNavigationOptions(),
             transitionConfig: () => ({screenInterpolator: CardStackStyleInterpolator.forHorizontal})
         });
 
