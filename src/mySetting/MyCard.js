@@ -326,11 +326,11 @@ export default class UserCard extends Component {
                             <Text style={styles.cellTitle}>{I18n.t('My_Profile_UserId')}</Text>
                             <Text style={styles.cellValue}>{userId}</Text>
                         </View>
-                        {this._renderLineView()}
-                        <View style={styles.cellContentView}>
-                            <Text style={styles.cellTitle}>{I18n.t('My_Profile_DP')}</Text>
-                            <Text style={styles.cellValue}>{department}</Text>
-                        </View>
+                        {/*{this._renderLineView()}*/}
+                        {/*<View style={styles.cellContentView}>*/}
+                        {/*    <Text style={styles.cellTitle}>{I18n.t('My_Profile_DP')}</Text>*/}
+                        {/*    <Text style={styles.cellValue}>{department}</Text>*/}
+                        {/*</View>*/}
                         {this.shoMyQrCode()}
                     </View>
                     <View style={styles.line}>

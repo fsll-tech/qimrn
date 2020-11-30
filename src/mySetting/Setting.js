@@ -661,21 +661,21 @@ export default class Setting extends Component {
                         {this._showAlertVoice()}
 
                     </View>
-                    <Text style={styles.sectionHeader}>
-                        {I18n.t('My_Setting_Other')}
-                    </Text>
-                    <View>
-                        <TouchableOpacity style={styles.cellContentView} onPress={() => {
-                            this.openAbout();
-                        }}>
-                            <Text style={styles.cellTitle}>{I18n.t('My_Setting_About')}</Text>
-                            <Text style={styles.cellValue}>{AppVersion}</Text>
-                            <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.line}>
+                    {/*<Text style={styles.sectionHeader}>*/}
+                    {/*    {I18n.t('My_Setting_Other')}*/}
+                    {/*</Text>*/}
+                    {/*<View>*/}
+                    {/*    <TouchableOpacity style={styles.cellContentView} onPress={() => {*/}
+                    {/*        this.openAbout();*/}
+                    {/*    }}>*/}
+                    {/*        <Text style={styles.cellTitle}>{I18n.t('My_Setting_About')}</Text>*/}
+                    {/*        <Text style={styles.cellValue}>{AppVersion}</Text>*/}
+                    {/*        <Image source={require('../images/new_arrow_right.png')} style={styles.rightArrow}/>*/}
+                    {/*    </TouchableOpacity>*/}
+                    {/*</View>*/}
+                    {/*<View style={styles.line}>*/}
 
-                    </View>
+                    {/*</View>*/}
                     <View style={{marginBottom: 60}}>
                         <TouchableOpacity style={styles.cellContentView} onPress={() => {
                             this.logout();

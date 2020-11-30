@@ -667,26 +667,26 @@ export default class FoundPage extends PureComponent {
                 {/*</TouchableOpacity>*/}
                 <View style={{height:100,backgroundColor:'#ffffff'}}>
                     <View style={NewFoundStyles.appointSearchItem}>
-                        <TouchableOpacity onPress={() => {
-                            this.openNativeNoteBook();
-                        }}>
-                            <View style={NewFoundStyles.searhItemView}>
-                                <Text style={NewFoundStyles.iconStyle1}>{String.fromCharCode(parseInt("0xe7e8;"))}</Text>
-                                <Text style={NewFoundStyles.searchItemText}>{I18n.t('Notes')}</Text>
-                            </View>
+                        {/*<TouchableOpacity onPress={() => {*/}
+                        {/*    this.openNativeNoteBook();*/}
+                        {/*}}>*/}
+                        {/*    <View style={NewFoundStyles.searhItemView}>*/}
+                        {/*        <Text style={NewFoundStyles.iconStyle1}>{String.fromCharCode(parseInt("0xe7e8;"))}</Text>*/}
+                        {/*        <Text style={NewFoundStyles.searchItemText}>{I18n.t('Notes')}</Text>*/}
+                        {/*    </View>*/}
 
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => {
+                        {/*</TouchableOpacity>*/}
+                        {/*<TouchableOpacity onPress={() => {*/}
 
-                            this.openNativeTravelCalendar();
-                        }}>
-                            <View style={NewFoundStyles.searhItemView}>
-                                <Text style={NewFoundStyles.iconStyle2}>{String.fromCharCode(parseInt("0xe7eb;"))}</Text>
-                                <Text style={NewFoundStyles.searchItemText}>{I18n.t('Schedule')}</Text>
-                            </View>
+                        {/*    this.openNativeTravelCalendar();*/}
+                        {/*}}>*/}
+                        {/*    <View style={NewFoundStyles.searhItemView}>*/}
+                        {/*        <Text style={NewFoundStyles.iconStyle2}>{String.fromCharCode(parseInt("0xe7eb;"))}</Text>*/}
+                        {/*        <Text style={NewFoundStyles.searchItemText}>{I18n.t('Schedule')}</Text>*/}
+                        {/*    </View>*/}
 
 
-                        </TouchableOpacity>
+                        {/*</TouchableOpacity>*/}
 
                         <TouchableOpacity onPress={() => {
                             this.openNativeFileTransfer();
@@ -698,15 +698,15 @@ export default class FoundPage extends PureComponent {
                             </View>
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => {
-                            this.openNativeScan();
-                        }}>
+                        {/*<TouchableOpacity onPress={() => {*/}
+                        {/*    this.openNativeScan();*/}
+                        {/*}}>*/}
 
-                            <View style={NewFoundStyles.searhItemView}>
-                                <Text style={NewFoundStyles.iconStyle4}>{String.fromCharCode(parseInt("0xe7e9;"))}</Text>
-                                <Text style={NewFoundStyles.searchItemText}>{I18n.t('scan')}</Text>
-                            </View>
-                        </TouchableOpacity>
+                        {/*    <View style={NewFoundStyles.searhItemView}>*/}
+                        {/*        <Text style={NewFoundStyles.iconStyle4}>{String.fromCharCode(parseInt("0xe7e9;"))}</Text>*/}
+                        {/*        <Text style={NewFoundStyles.searchItemText}>{I18n.t('scan')}</Text>*/}
+                        {/*    </View>*/}
+                        {/*</TouchableOpacity>*/}
                     </View>
                 </View>
                 {this._showSettingFound()}

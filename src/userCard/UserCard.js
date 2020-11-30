@@ -616,12 +616,12 @@ export default class UserCard extends Component {
                             <Text
                                 style={styles.cellValue}>{this.state.userInfo ? this.state.userInfo["UserId"] : userId}</Text>
                         </View>
-                        {this._renderLineView()}
-                        <View style={styles.cellContentView}>
-                            <Text style={styles.cellTitle}>{I18n.t('singlechat_Department')}</Text>
-                            <Text
-                                style={styles.cellValue}>{this.state.userInfo ? this.state.userInfo["Department"] : department}</Text>
-                        </View>
+                        {/*{this._renderLineView()}*/}
+                        {/*<View style={styles.cellContentView}>*/}
+                        {/*    <Text style={styles.cellTitle}>{I18n.t('singlechat_Department')}</Text>*/}
+                        {/*    <Text*/}
+                        {/*        style={styles.cellValue}>{this.state.userInfo ? this.state.userInfo["Department"] : department}</Text>*/}
+                        {/*</View>*/}
                     </View>
 
                     <View style={styles.line}>

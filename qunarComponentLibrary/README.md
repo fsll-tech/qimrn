@@ -51,7 +51,7 @@ import RNQunarComponentLibrary from 'react-native-qunar-component-library';
 RNQunarComponentLibrary;
 
 
-react-native bundle --entry-file index.js --dev false --bundle-output ./android/bundle/index.android.bundle --platform android --assets-dest ./android/bundle*
+react-native bundle --entry-file index.android.js --dev false --bundle-output ./android/bundle/index.android.bundle --platform android --assets-dest ./android/bundle*
 
 ```
   

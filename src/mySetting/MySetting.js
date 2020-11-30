@@ -598,17 +598,17 @@ export default class UserCard extends Component {
 
                     {/*{this._showAccountInfo()}*/}
                     {this._renderFileCell()}
-                    {this._renderMedalCell()}
-                    <View>
-                        <TouchableOpacity style={styles.cellContentView} onPress={() => {
-                            this.openAdviceAndFeedback();
-                        }}>
-                            <Text style={[styles.cellIcon, {color: '#839DDB'}]}>{String.fromCharCode(0xe744)}</Text>
-                            <Text style={styles.cellTitle}>{I18n.t('My_FeedBack')}</Text>
-                            <Text style={styles.cellValue}></Text>
-                            <Text style={[styles.rightArrow, {color: '#C4C4C5'}]}>{String.fromCharCode(0xe7e0)}</Text>
-                            {/*<Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>*/}
-                        </TouchableOpacity>
+                    {/*{this._renderMedalCell()}*/}
+                    {/*<View>*/}
+                        {/*<TouchableOpacity style={styles.cellContentView} onPress={() => {*/}
+                        {/*    this.openAdviceAndFeedback();*/}
+                        {/*}}>*/}
+                        {/*    <Text style={[styles.cellIcon, {color: '#839DDB'}]}>{String.fromCharCode(0xe744)}</Text>*/}
+                        {/*    <Text style={styles.cellTitle}>{I18n.t('My_FeedBack')}</Text>*/}
+                        {/*    <Text style={styles.cellValue}></Text>*/}
+                        {/*    <Text style={[styles.rightArrow, {color: '#C4C4C5'}]}>{String.fromCharCode(0xe7e0)}</Text>*/}
+                        {/*    /!*<Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>*!/*/}
+                        {/*</TouchableOpacity>*/}
 
                         {/*<TouchableOpacity style={styles.cellContentView} onPress={() => {*/}
                         {/*this.openSetting();*/}
@@ -618,9 +618,9 @@ export default class UserCard extends Component {
                         {/*<Text style={styles.cellValue}></Text>*/}
                         {/*<Image source={require('../images/arrow_right.png')} style={styles.rightArrow}/>*/}
                         {/*</TouchableOpacity>*/}
-                    </View>
-                    {this.showLins()}
-                    {this._renderNav()}
+                    {/*</View>*/}
+                    {/*{this.showLins()}*/}
+                    {/*{this._renderNav()}*/}
 
                     {this._showToCManager()}
                 </ScrollView>

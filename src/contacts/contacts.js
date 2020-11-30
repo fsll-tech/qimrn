@@ -544,16 +544,16 @@ export default class Contacts extends Component {
                         <Text style={styles.itemHeaderText}>{I18n.t('contact_myGroups')}</Text>
                     </TouchableOpacity>
                     <View style={styles.line}/>
-                    <TouchableOpacity style={styles.itemRowHeaderChild} onPress={this._headerPress.bind(this, I18n.t('contact_Organization'))}>
-                        <Image source={require('../images/organization.png')} style={styles.itemRowHeaderImage}/>
-                        <Text style={styles.itemHeaderText}>{I18n.t('contact_Organization')}</Text>
-                    </TouchableOpacity>
-                    <View style={styles.line}/>
-                    <TouchableOpacity style={styles.itemRowHeaderChild} onPress={this._headerPress.bind(this, I18n.t('contact_External'))}>
-                        <Image source={require('../images/out_contacts.png')} style={styles.itemRowHeaderImage}/>
-                        <Text style={styles.itemHeaderText}>{I18n.t('contact_External')}</Text>
-                    </TouchableOpacity>
-                    <View style={styles.line}/>
+                    {/*<TouchableOpacity style={styles.itemRowHeaderChild} onPress={this._headerPress.bind(this, I18n.t('contact_Organization'))}>*/}
+                    {/*    <Image source={require('../images/organization.png')} style={styles.itemRowHeaderImage}/>*/}
+                    {/*    <Text style={styles.itemHeaderText}>{I18n.t('contact_Organization')}</Text>*/}
+                    {/*</TouchableOpacity>*/}
+                    {/*<View style={styles.line}/>*/}
+                    {/*<TouchableOpacity style={styles.itemRowHeaderChild} onPress={this._headerPress.bind(this, I18n.t('contact_External'))}>*/}
+                    {/*    <Image source={require('../images/out_contacts.png')} style={styles.itemRowHeaderImage}/>*/}
+                    {/*    <Text style={styles.itemHeaderText}>{I18n.t('contact_External')}</Text>*/}
+                    {/*</TouchableOpacity>*/}
+                    {/*<View style={styles.line}/>*/}
                 </View>
             );
         } else {
@@ -575,12 +575,12 @@ export default class Contacts extends Component {
                         <Text style={styles.itemHeaderText}>{I18n.t('contact_myGroups')}</Text>
                     </TouchableOpacity>
                     <View style={styles.line}/>
-                    <TouchableOpacity style={[styles.itemRowHeaderChild]}
-                                      onPress={this._headerPress.bind(this, I18n.t('contact_External'))}>
-                        <Image source={require('../images/out_contacts.png')} style={styles.itemImage}/>
-                        <Text style={styles.itemHeaderText}>{I18n.t('contact_External')}</Text>
-                    </TouchableOpacity>
-                    <View style={styles.line}/>
+                    {/*<TouchableOpacity style={[styles.itemRowHeaderChild]}*/}
+                    {/*                  onPress={this._headerPress.bind(this, I18n.t('contact_External'))}>*/}
+                    {/*    <Image source={require('../images/out_contacts.png')} style={styles.itemImage}/>*/}
+                    {/*    <Text style={styles.itemHeaderText}>{I18n.t('contact_External')}</Text>*/}
+                    {/*</TouchableOpacity>*/}
+                    {/*<View style={styles.line}/>*/}
                 </View>
             );
         }

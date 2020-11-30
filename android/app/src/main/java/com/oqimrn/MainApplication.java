@@ -29,7 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
 //    protected List<ReactPackage> getPackages() {
 //      return Arrays.<ReactPackage>asList(
 //          new MainReactPackage(),
-            new RNI18nPackage(),
+//            new RNI18nPackage(),
 //            new CookieManagerPackage()
 //      );
 //    }
@@ -72,7 +72,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-
+//    QIMSDK.getInstance().openDebug()
 
 
     TypeFaceYaHei = Typeface.createFromAsset(getAssets(), "fonts/DS-Digital.ttf");
