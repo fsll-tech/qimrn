@@ -35,12 +35,6 @@ export default class UserCard extends Component {
         let leftBtn = (<NavCBtn btnType={NavCBtn.EXIT_APP} moduleName={"MySetting"}/>);
         return {
             headerTitle: headerTitle,
-            headerStyle:{
-                borderBottomWidth: 0.5,
-                elevation: 0,
-                borderColor:'#eaeaea',
-
-            },
             headerTitleStyle: {
                 fontSize: 18,
                 flex: 1, textAlign: 'center'
