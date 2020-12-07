@@ -20,12 +20,7 @@ export default class AppList extends Component {
         let headerTitle = navigation.state.params.Title;
         let leftBtn = (<NavCBtn btnType={NavCBtn.EXIT_APP} moduleName={"FoundPage"}/>);
         return {
-            headerStyle:{
-                borderBottomWidth: 0.5,
-                elevation: 0,
-                borderColor:'#eaeaea',
 
-            },
             headerTitle: headerTitle,
             headerTitleStyle: {
                 fontSize: 18,

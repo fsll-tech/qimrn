@@ -24,12 +24,7 @@ export default class GroupMembers extends PureComponent {
             }
         }}>{navigation.getParam("rightText")}</NavCBtn>);
         return {
-            headerStyle:{
-                borderBottomWidth: 0.5,
-                elevation: 0,
-                borderColor:'#eaeaea',
 
-            },
             headerTitle: headerTitle,
             headerTitleStyle: {
                 fontSize: 18,

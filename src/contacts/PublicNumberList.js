@@ -61,12 +61,7 @@ export default class PublicNumberList extends React.PureComponent {
                 style={styles.addBtnStyle}>{String.fromCharCode(parseInt("0xf1cd"))}</Text></TouchableOpacity></NavCBtn>
         );
         return {
-            headerStyle:{
-                borderBottomWidth: 0.5,
-                elevation: 0,
-                borderColor:'#eaeaea',
 
-            },
             headerTitle: headerTitle,
             headerTitleStyle: {
                 fontSize: 18,

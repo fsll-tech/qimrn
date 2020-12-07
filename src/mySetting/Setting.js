@@ -27,12 +27,7 @@ export default class Setting extends Component {
         let headerTitle = I18n.t('My_Setting');
         let leftBtn = (<NavCBtn btnType={NavCBtn.EXIT_APP} moduleName={"MySetting"}/>);
         return {
-            headerStyle:{
-                borderBottomWidth: 0.5,
-                elevation: 0,
-                borderColor:'#eaeaea',
 
-            },
             headerTitle: headerTitle,
             headerTitleStyle: {
                 fontSize: 18,

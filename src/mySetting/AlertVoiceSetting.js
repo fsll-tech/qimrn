@@ -24,12 +24,7 @@ export default class AlertVoiceSetting extends Component{
         let leftBtn = (<NavCBtn {...props}/>);
         return {
             headerTitle:headerTitle,
-            headerStyle:{
-                borderBottomWidth: 0.5,
-                elevation: 0,
-                borderColor:'#eaeaea',
 
-            },
             headerTitleStyle: {
                 fontSize: 18,
                 flex: 1, textAlign: 'center'

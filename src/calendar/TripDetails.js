@@ -24,12 +24,7 @@ export default class TripDetails extends Component {
         let leftBtn = (<NavCBtn btnType={NavCBtn.EXIT_APP} moduleName={"TravelCalendar"}/>);
 
         return {
-            headerStyle:{
-                borderBottomWidth: 0.5,
-                elevation: 0,
-                borderColor:'#eaeaea',
 
-            },
             headerTitle: headerTitle,
             headerTitleStyle: {
                 fontSize: 18,

@@ -117,12 +117,7 @@ export default class GroupMemberKick extends Component {
             }
         }}>{I18n.t('Ok')}</NavCBtn>);
         return {
-            headerStyle:{
-                borderBottomWidth: 0.5,
-                elevation: 0,
-                borderColor:'#eaeaea',
 
-            },
             headerTitle: headerTitle,
             headerTitleStyle: {
                 fontSize: 18,

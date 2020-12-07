@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {
     Platform,
-    View,
+    View, SafeAreaView,
     BackHandler,
     UIManager,
     NativeModules, NativeAppEventEmitter,
@@ -25,7 +25,15 @@ export default class App extends Component {
             },
         }, {
             mode:'card',
-            headerMode:'screen',
+            headerMode: 'screen',
+            cardStyle: { shadowColor: 'transparent', paddingTop: 0, marginTop: 0 },
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#fbfbfb',
+                height: 40,
+                backgroundColor: '#ffffff'
+            },
             initialRouteName: route.name,
             initialRouteParams: this.props,
             transitionConfig: () => ({screenInterpolator: CardStackStyleInterpolator.forHorizontal})
@@ -66,9 +74,9 @@ export default class App extends Component {
 
     render() {
         return (
-            <View style={{flex: 1}}>
+            <SafeAreaView style={{flex: 1}}>
                 <this.AppStack {...this.props}/>
-            </View>
+            </SafeAreaView>
         )
     }
 }

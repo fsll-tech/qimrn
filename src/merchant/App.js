@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {
     Platform,
-    View,
+    View, SafeAreaView,
     BackHandler,
     UIManager, NativeAppEventEmitter,
 } from 'react-native';
@@ -32,7 +32,15 @@ export default class App extends Component {
             }
         }, {
             mode:'card',
-            headerMode:'screen',
+            headerMode: 'screen',
+            cardStyle: { shadowColor: 'transparent', paddingTop: 0, marginTop: 0 },
+            headerStyle:{
+                borderBottomWidth: 0.5,
+                elevation: 0,
+                borderColor:'#fbfbfb',
+                height: 40,
+                backgroundColor: '#ffffff'
+            },
             initialRouteName: route.name,
             initialRouteParams: initData,
             navigationOptions: CommonNav.commonNavigationOptions(),
@@ -74,9 +82,9 @@ export default class App extends Component {
 
     render() {
         return (
-            <View style={{flex: 1}}>
-                <this.AppStack />
-            </View>
+            <SafeAreaView style={{flex: 1}}>
+                    <this.AppStack />
+                </SafeAreaView>
         )
     }
 }

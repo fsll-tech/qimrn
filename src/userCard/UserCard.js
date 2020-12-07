@@ -40,12 +40,7 @@ export default class UserCard extends Component {
                 fontSize: 18,
                 flex: 1, textAlign: 'center'
             },
-            headerStyle:{
-                borderBottomWidth: 0.5,
-                elevation: 0,
-                borderColor:'#eaeaea',
 
-            },
 
             headerLeft: leftBtn,
             headerRight: rightBtn,

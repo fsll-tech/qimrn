@@ -14,12 +14,7 @@ export default class UserCard extends Component {
         let headerTitle = "测试页面";
         let leftBtn = (<NavCBtn btnType={NavCBtn.EXIT_APP} moduleName={"TestPage"}/>);
         return {
-            headerStyle:{
-                borderBottomWidth: 0.5,
-                elevation: 0,
-                borderColor:'#eaeaea',
 
-            },
             headerTitle: headerTitle,
             headerTitleStyle: {
                 fontSize: 18,

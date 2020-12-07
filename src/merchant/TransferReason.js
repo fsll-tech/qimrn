@@ -25,12 +25,7 @@ export default class TransferReason extends Component{
             leftBtn = (<NavCBtn {...props}/>);
         }
         return {
-            headerStyle:{
-                borderBottomWidth: 0.5,
-                elevation: 0,
-                borderColor:'#eaeaea',
 
-            },
             headerTitle: headerTitle,
             headerTitleStyle: {
                 fontSize: 18,

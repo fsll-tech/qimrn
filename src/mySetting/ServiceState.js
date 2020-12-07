@@ -27,12 +27,7 @@ export default class ServiceState extends Component {
         let leftBtn = (<NavCBtn {...props}/>);
         // let leftBtn = (<NavCBtn btnType={NavCBtn.BACK_BUTTON} moduleName={"Setting"}/>);
         return {
-            headerStyle:{
-                borderBottomWidth: 0.5,
-                elevation: 0,
-                borderColor:'#eaeaea',
 
-            },
             headerTitle: headerTitle,
             headerTitleStyle: {
                 fontSize: 18,

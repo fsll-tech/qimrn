@@ -76,12 +76,7 @@ export default class QIMWebView extends Component {
             leftBtn = (<NavCBtn btnType={NavCBtn.EXIT_APP} moduleName={"WebView"}/>);
         }
         return {
-            headerStyle:{
-                borderBottomWidth: 0.5,
-                elevation: 0,
-                borderColor:'#eaeaea',
 
-            },
             headerTitle: headerTitle,
             headerTitleStyle: {
                 fontSize: 18,

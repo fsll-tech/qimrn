@@ -26,12 +26,7 @@ export default class PersonalSignature extends Component {
         }}>{I18n.t('common_saveButton')}</NavCBtn>);
         return {
             headerTitle: headerTitle,
-            headerStyle:{
-                borderBottomWidth: 0.5,
-                elevation: 0,
-                borderColor:'#eaeaea',
 
-            },
             headerTitleStyle: {
                 fontSize: 18,
                 flex: 1, textAlign: 'center'

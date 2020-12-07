@@ -203,12 +203,7 @@ export class TripAttendeesSelect extends Component {
             }
         }}>完成</NavCBtn>);
         return {
-            headerStyle:{
-                borderBottomWidth: 0.5,
-                elevation: 0,
-                borderColor:'#eaeaea',
 
-            },
             headerTitle: headerTitle,
             headerTitleStyle: {
                 fontSize: 18,
